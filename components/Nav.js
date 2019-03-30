@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { Scrollbars } from 'react-custom-scrollbars';
+import Signout from './Signout';
 
 
 class Nav extends Component {
@@ -105,7 +105,7 @@ class Nav extends Component {
                           Lock screen
                         </DropdownItem>
                         <DropdownItem>
-                          <i className="mdi mdi-power text-danger" /> Logout
+                          <Signout/>
                         </DropdownItem>
                       </DropdownMenu>
                     </Dropdown>

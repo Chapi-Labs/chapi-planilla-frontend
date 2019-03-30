@@ -48,8 +48,8 @@ render() {
                     </div>
                   </div>
                   <div className="pt-2">
-                    <div className="float-right">
-                      <Link to="#" className="text-white-50">
+                    <div className="float-right text-white-50">
+                      <Link href="#">
                         <i className="mdi mdi-arrow-right h5" />
                       </Link>
                     </div>
@@ -81,8 +81,8 @@ render() {
                     </div>
                   </div>
                   <div className="pt-2">
-                    <div className="float-right">
-                      <Link to="#" className="text-white-50">
+                    <div className="float-right text-white-50">
+                      <Link href="#">
                         <i className="mdi mdi-arrow-right h5" />
                       </Link>
                     </div>
@@ -114,8 +114,8 @@ render() {
                     </div>
                   </div>
                   <div className="pt-2">
-                    <div className="float-right">
-                      <Link to="#" className="text-white-50">
+                    <div className="float-right text-white-50">
+                      <Link href="#">
                         <i className="mdi mdi-arrow-right h5" />
                       </Link>
                     </div>
@@ -147,8 +147,8 @@ render() {
                     </div>
                   </div>
                   <div className="pt-2">
-                    <div className="float-right">
-                      <Link to="#" className="text-white-50">
+                    <div className="float-right text-white-50">
+                      <Link href="#">
                         <i className="mdi mdi-arrow-right h5" />
                       </Link>
                     </div>
