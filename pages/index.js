@@ -1,6 +1,4 @@
 import React from 'react';
-import Head from '../components/head';
-import SignIn from '../components/SignIn';
 import Nav from '../components/Nav';
 import Dashboard from '../components/Dashboard';
 import '../static/assets/css/bootstrap.min.css';
@@ -13,11 +11,8 @@ import '../static/assets/css/style.css';
 
 const Home = () => (
   <div>
-    <Head title="Home" />
-    <SignIn>
       <Nav/>
       <Dashboard/>
-    </SignIn>
   </div>
 );
 

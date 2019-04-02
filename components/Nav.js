@@ -101,11 +101,17 @@ class Nav extends Component {
                           <i className="mdi mdi-settings m-r-5" /> Settings
                         </DropdownItem>
                         <DropdownItem>
-                          <i className="mdi mdi-lock-open-outline m-r-5" />{' '}
-                          Lock screen
+                          <Link href="/register">
+                            <a>
+                              <i className="mdi mdi-lock-open-outline m-r-5" />{' '}
+                              Lock screen
+                            </a>
+                          </Link>
                         </DropdownItem>
                         <DropdownItem>
-                          <Signout/>
+                          <a>
+                            <Signout />
+                          </a>
                         </DropdownItem>
                       </DropdownMenu>
                     </Dropdown>

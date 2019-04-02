@@ -23,7 +23,6 @@ class Login extends Component {
     email: ''
   };
   saveToState = e => {
-    console.log(this.state);
     this.setState({ [e.target.name]: e.target.value });
   };
   render() {
