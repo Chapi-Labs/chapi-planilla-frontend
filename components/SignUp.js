@@ -3,7 +3,7 @@ import { Mutation } from 'react-apollo';
 import Link from 'next/link';
 import gql from 'graphql-tag';
 import { CURRENT_USER_QUERY } from './User';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
@@ -93,27 +93,27 @@ class Signup extends Component {
                       />
                     </FormGroup>
 
-                    <div className="form-group row m-t-20">
-                      <div className="col-12 text-right">
-                        <button
+                    <FormGroup>
+                      <div className="col-sm-3 offset-sm-4">
+                        <Button
                           className="btn btn-primary w-md waves-effect waves-light"
                           type="submit"
                         >
                           Register
-                        </button>
+                        </Button>
                       </div>
-                    </div>
+                    </FormGroup>
 
-                    <div className="form-group m-t-10 mb-0 row">
+                    <FormGroup>
                       <div className="col-12 m-t-20">
                         <p className="mb-0">
-                          By registering you agree to the Veltrix{' '}
+                          By registering you agree to the{' '}
                           <Link href="#">
                             <a className="text-primary">Terms of Use</a>
                           </Link>
                         </p>
                       </div>
-                    </div>
+                    </FormGroup>
                   </Form>
                 </div>
               </div>
@@ -121,7 +121,7 @@ class Signup extends Component {
               <div className="m-t-40 text-center">
                 <p>
                   Already have an account ?{' '}
-                  <Link href="pages-login">
+                  <Link href="/login">
                     <a className="font-500 text-primary"> Login </a>
                   </Link>{' '}
                 </p>
