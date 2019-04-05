@@ -1,7 +1,8 @@
 import React from 'react';
 import Nav from '../components/Nav';
 import Dashboard from '../components/Dashboard';
-import '../static/assets/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import '../static/assets/css/icons.css';
 import '../static/assets/css/typicons.css';
 import '../static/assets/scss/style.scss';

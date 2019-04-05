@@ -109,9 +109,7 @@ class Nav extends Component {
                           </Link>
                         </DropdownItem>
                         <DropdownItem>
-                          <a>
-                            <Signout />
-                          </a>
+                          <Signout />
                         </DropdownItem>
                       </DropdownMenu>
                     </Dropdown>

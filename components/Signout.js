@@ -17,9 +17,9 @@ const Signout = props => (
     refetchQueries={[{ query: CURRENT_USER_QUERY }]}
   >
     {signout => (
-      <i className="mdi mdi-power text-danger" onClick={signout}>
-        Logout
-      </i>
+      <a href="#" onClick={signout}>
+        <i className="mdi mdi-power m-r-5"/>Logout
+      </a>
     )}
   </Mutation>
 );

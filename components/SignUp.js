@@ -4,6 +4,7 @@ import Link from 'next/link';
 import gql from 'graphql-tag';
 import { CURRENT_USER_QUERY } from './User';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import Router from 'next/router';
 
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
@@ -55,6 +56,9 @@ class Signup extends Component {
                       e.preventDefault();
                       await signup();
                       this.setState({ name: '', email: '', password: '' });
+                      Router.push({
+                        pathname: '/',
+                      })
                     }}
                   >
                     <FormGroup>
