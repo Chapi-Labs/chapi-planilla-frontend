@@ -3,7 +3,9 @@ import SignIn from '../components/SignIn';
 
 const SignupPage = props => (
   <div>
-    <Signup />
+    <SignIn>
+      <Signup />
+    </SignIn>
   </div>
 );
 
