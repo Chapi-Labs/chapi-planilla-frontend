@@ -4661,6 +4661,11 @@ react-apollo@^2.5.3:
     ts-invariant "^0.3.2"
     tslib "^1.9.3"
 
+react-content-loader@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/react-content-loader/-/react-content-loader-4.2.1.tgz#0d355134ed7d0987966abd0f784bc59e76976e91"
+  integrity sha512-XA5irUvZpQAEavfUBo7kc4tdvAbWwVKJolz/+2Pkj/XU7pn78AweAUtn+AxEajN0Srg/mraJ8XMKlUsXOFiknw==
+
 react-custom-scrollbars@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/react-custom-scrollbars/-/react-custom-scrollbars-4.2.1.tgz#830fd9502927e97e8a78c2086813899b2a8b66db"
