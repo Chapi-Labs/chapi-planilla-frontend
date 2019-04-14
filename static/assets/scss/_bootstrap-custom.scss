@@ -166,3 +166,13 @@ dt {
     }
   }
 }
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+.btn-outline-primary:hover {
+  color: $danger !important;
+  background-color: transparent !important;
+  border-color: $danger;
+}

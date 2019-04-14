@@ -3,7 +3,7 @@ import SignIn from './SignIn';
 
 const Page = props => (
     <div>
-        <Head title="Home" />
+        <Head title="Chapi Planilla" />
         <SignIn>
             {props.children}
         </SignIn>

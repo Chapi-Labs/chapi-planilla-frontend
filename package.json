@@ -1,9 +1,15 @@
 {
-  "name": "create-next-example-app",
+  "name": "chapi-planilla-frontend",
+  "description": "Main Page",
+  "version": "1.0.0",
+  "private": true,
+  "author": "Chapi Labs",
+  "license": "",
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "deploy": "now && now alias"
   },
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
