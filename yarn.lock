@@ -4381,7 +4381,7 @@ md5.js@^1.3.4:
 
 "mdbreact@git+https://github.com/Chapi-Labs/React-Bootstrap-with-Material-Design":
   version "4.12.0"
-  resolved "git+https://github.com/Chapi-Labs/React-Bootstrap-with-Material-Design#3d6a7041b41556552e6e2fd597e5b3ac0543c3f9"
+  resolved "git+https://github.com/Chapi-Labs/React-Bootstrap-with-Material-Design#eccacd6e6b440ac2c0dbcafa2c6c988edf0cdaf4"
   dependencies:
     "@date-io/moment" "0.0.2"
     "@fortawesome/fontawesome-free" "^5.7.1"
