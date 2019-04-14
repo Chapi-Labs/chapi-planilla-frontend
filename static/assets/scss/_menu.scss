@@ -8,11 +8,13 @@ body {
 }
 
 .wrapper {
-  padding-top: 158px;
+  padding-top: 120px;
 }
 
 .container-fluid {
   max-width: 1300px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 #topnav {
@@ -44,6 +46,7 @@ body {
       line-height: 60px;
       float: left;
       color: white;
+      height: 0px;
       .logo-large {
           height: 18px;
       }

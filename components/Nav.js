@@ -1,32 +1,43 @@
-import React, { Component } from 'react'
-import Link from 'next/link'
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import React, { Component } from 'react';
+import Link from 'next/link';
+import NProgress from 'nprogress';
+import Router from 'next/router';
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from 'reactstrap';
 import Signout from './Signout';
+import '../static/assets/css/nprogress.css';
 
+Router.onRouteChangeStart = () => {
+  NProgress.start();
+};
+Router.onRouteChangeComplete = () => {
+  NProgress.done();
+};
+
+Router.onRouteChangeError = () => {
+  NProgress.done();
+};
 
 class Nav extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      Tab: '',
-      SubTab: '',
-      MoreTab: '',
       dropdownOpen: false,
-      email_menu: false,
-      ui_menu: false,
-      form_menu: false,
-      chart_menu: false,
-      table_menu: false,
-      icon_menu: false,
-      map_menu: false,
-      extra_menu: false,
-      pages_menu: false,
-      et_menu: false,
-      dropdownOpen1: false,
-      dropdownOpenprofile: false,
-      dropdownOpenbadge: false
+      toggleMenu: true,
+      subMenuToggled: false
     };
+  }
+  componentDidMount() {
+    if (window.innerWidth <= 960) {
+      this.setState(prevState => ({
+        toggleMenu: false
+      }));
+    }
   }
 
   toggle(dropdownOpen) {
@@ -35,6 +46,27 @@ class Nav extends Component {
     }));
   }
 
+  toggleMenu = e => {
+    this.setState(prevState => ({
+      toggleMenu: !prevState.toggleMenu
+    }));
+    if (this.state.toggleMenu === false) {
+      this.state.subMenuToggled = true;
+    }
+
+  };
+
+  toggleSubMenu = e => {
+    if (this.state.subMenuToggled === true) {
+      this.myInput.className = 'submenu megamenu open';
+    } else {
+      this.myInput.className = 'submenu megamenu';
+    }
+    this.setState(prevState => ({
+      subMenuToggled: !prevState.subMenuToggled
+    }));
+  };
+
   render() {
     return (
       <header id="topnav">
@@ -42,7 +74,7 @@ class Nav extends Component {
           <div className="container-fluid">
             <div className="logo">
               <Link href="/">
-                <h3>Chapi Planilla</h3>
+                <h3 className="waves-effect">Chapi Planilla</h3>
               </Link>
             </div>
             <div className="menu-extras topbar-custom">
@@ -68,7 +100,10 @@ class Nav extends Component {
                       isOpen={this.state.dropdownOpen}
                       toggle={() => this.toggle(this.state.dropdownOpen)}
                     >
-                      <DropdownToggle color="" className="dropdown-toggle testflag nav-link arrow-none waves-effect nav-user">
+                      <DropdownToggle
+                        color=""
+                        className="dropdown-toggle testflag nav-link arrow-none waves-effect nav-user"
+                      >
                         <img
                           src="../static/assets/images/users/user-4.jpg"
                           alt="user"
@@ -77,7 +112,7 @@ class Nav extends Component {
                       </DropdownToggle>
                       <DropdownMenu>
                         <DropdownItem>
-                          <i className="mdi mdi-account-circle m-r-5" />{' '}
+                          <i className="mdi mdi-account-circle m-r-5" />{" "}
                           Profile
                         </DropdownItem>
                         <DropdownItem>
@@ -89,7 +124,7 @@ class Nav extends Component {
                               <span className="badge badge-success float-right">
                                 11
                               </span>
-                              <i className="mdi mdi-settings m-r-5" />{' '}
+                              <i className="mdi mdi-settings m-r-5" />{" "}
                               Settings
                             </a>
                           </Link>
@@ -97,7 +132,7 @@ class Nav extends Component {
                         <DropdownItem>
                           <Link href="/register">
                             <a>
-                              <i className="mdi mdi-lock-open-outline m-r-5" />{' '}
+                              <i className="mdi mdi-lock-open-outline m-r-5" />{" "}
                               Lock screen
                             </a>
                           </Link>
@@ -111,13 +146,20 @@ class Nav extends Component {
                 </li>
 
                 <li className="menu-item list-inline-item">
-                  <Link href="#">
-                    <div id="ex" className="lines navbar-toggle nav-link">
+                  <a
+                    className={
+                      this.state.toggleMenu
+                        ? "navbar-toggle nav-link open"
+                        : "navbar-toggle nav-link"
+                    }
+                    onClick={this.toggleMenu}
+                  >
+                    <div id="ex" className="lines">
                       <span />
                       <span />
                       <span />
                     </div>
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -126,21 +168,33 @@ class Nav extends Component {
         </div>
         <div className="navbar-custom">
           <div className="container-fluid">
-            <div id="navigation">
+            <div
+              id="navigation"
+              style={{ display: this.state.toggleMenu ? "block" : "none" }}
+            >
               <ul className="navigation-menu">
-                <li className="has-submenu">
+                <li className="has-submenu" onClick={this.toggleSubMenu}>
                   <Link href="#">
-                    <div id="ex">
-                      <i className="ti-archive" />
-                      {' '}Trabajadores
-                    </div>
+                    <a id="ex">
+                      <i className="ti-archive" /> Trabajadores
+                    </a>
                   </Link>
-                  <ul className="submenu megamenu">
+                  <ul
+                    className="submenu megamenu"
+                    ref={input => {
+                      this.myInput = input;
+                    }}
+                  >
                     <li>
                       <ul>
                         <li>
                           <Link href="/employee">
                             <a>Crear Nuevo</a>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link href="/list">
+                            <a>Listar</a>
                           </Link>
                         </li>
                       </ul>
@@ -150,9 +204,9 @@ class Nav extends Component {
 
                 <li
                   className={
-                    this.state.Tab === 'extra'
-                      ? 'has-submenu active'
-                      : 'has-submenu'
+                    this.state.Tab === "extra"
+                      ? "has-submenu active"
+                      : "has-submenu"
                   }
                 >
                   <Link href="#">
@@ -163,7 +217,7 @@ class Nav extends Component {
                       <ul>
                         <li
                           className={
-                            this.state.SubTab === 'pricing' ? 'active' : ''
+                            this.state.SubTab === "pricing" ? "active" : ""
                           }
                         >
                           <Link href="pages-pricing">
@@ -183,4 +237,4 @@ class Nav extends Component {
   }
 }
 
-export default Nav
+export default Nav;

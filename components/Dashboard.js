@@ -1,13 +1,8 @@
-import React , {Component } from 'react';
-import Link from 'next/link';
-import { Scrollbars } from 'react-custom-scrollbars';
+import React, { Component } from "react";
+import Link from "next/link";
 
-class Dashboard extends Component{
-
-    
- 
-render() {
-
+class Dashboard extends Component {
+  render() {
     return (
       <div className="wrapper">
         <div className="container-fluid">
@@ -40,8 +35,7 @@ render() {
                       Orders
                     </h5>
                     <h4 className="font-500">
-                      1,685{' '}
-                      <i className="mdi mdi-arrow-up text-success ml-2" />
+                      1,685 <i className="mdi mdi-arrow-up text-success ml-2" />
                     </h4>
                     <div className="mini-stat-label bg-success">
                       <p className="mb-0">+ 12%</p>
@@ -73,7 +67,7 @@ render() {
                       Revenue
                     </h5>
                     <h4 className="font-500">
-                      52,368{' '}
+                      52,368{" "}
                       <i className="mdi mdi-arrow-down text-danger ml-2" />
                     </h4>
                     <div className="mini-stat-label bg-danger">
@@ -106,8 +100,7 @@ render() {
                       Average Price
                     </h5>
                     <h4 className="font-500">
-                      15.8{' '}
-                      <i className="mdi mdi-arrow-up text-success ml-2" />
+                      15.8 <i className="mdi mdi-arrow-up text-success ml-2" />
                     </h4>
                     <div className="mini-stat-label bg-info">
                       <p className="mb-0"> 00%</p>
@@ -139,8 +132,7 @@ render() {
                       Product Sold
                     </h5>
                     <h4 className="font-500">
-                      2436{' '}
-                      <i className="mdi mdi-arrow-up text-success ml-2" />
+                      2436 <i className="mdi mdi-arrow-up text-success ml-2" />
                     </h4>
                     <div className="mini-stat-label bg-warning">
                       <p className="mb-0">+ 84%</p>
@@ -162,7 +154,7 @@ render() {
         </div>
       </div>
     );
-    }
+  }
 }
 
 export default Dashboard;
