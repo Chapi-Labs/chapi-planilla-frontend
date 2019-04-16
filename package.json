@@ -9,7 +9,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start -p $PORT",
-    "deploy": "now --target production"
+    "deploy": "now --target production",
+    "heroku-postbuild": "next build"
   },
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
