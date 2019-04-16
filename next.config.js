@@ -22,5 +22,5 @@ module.exports = withPlugins([withCSS, withSass], {
 
     return config;
   },
-  target: "serverless"
+  target: "server"
 });
