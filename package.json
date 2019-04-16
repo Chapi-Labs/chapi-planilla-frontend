@@ -22,6 +22,7 @@
     "graphql-tag": "^2.10.1",
     "mdbreact": "git+https://github.com/Chapi-Labs/React-Bootstrap-with-Material-Design",
     "next": "^8.0.3",
+    "next-fonts": "^0.17.0",
     "next-compose-plugins": "^2.1.1",
     "next-with-apollo": "^3.4.0",
     "node-sass": "^4.11.0",
@@ -33,12 +34,11 @@
     "react-dom": "^16.8.4",
     "react-x-editable": "^0.0.10-beta",
     "reactstrap": "^7.1.0",
-    "resolve-url-loader": "^3.0.1"
-  },
-  "devDependencies": {
+    "resolve-url-loader": "^3.0.1",
     "@fortawesome/fontawesome-free": "^5.8.1",
     "file-loader": "^3.0.1",
-    "next-fonts": "^0.17.0",
     "url-loader": "^1.1.2"
+  },
+  "devDependencies": { 
   }
 }
