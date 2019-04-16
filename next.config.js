@@ -1,13 +1,7 @@
-const withSass = require('@zeit/next-sass');
-const withPlugins = require('next-compose-plugins');
-const withCSS = require('@zeit/next-css');
-const withFonts = require('next-fonts');
-const dotEnvResult = require("dotenv").config();
-
-
-if (dotEnvResult.error) {
-  throw dotEnvResult.error;
-}
+const withSass = require("@zeit/next-sass");
+const withPlugins = require("next-compose-plugins");
+const withCSS = require("@zeit/next-css");
+const withFonts = require("next-fonts");
 
 module.exports = withPlugins([withCSS, withSass], {
   webpack: config => {
@@ -28,7 +22,5 @@ module.exports = withPlugins([withCSS, withSass], {
 
     return config;
   },
-  env: {
-    ...dotEnvResult
-  }
+  target: "serverless"
 });
