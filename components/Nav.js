@@ -193,7 +193,7 @@ class Nav extends Component {
                           </Link>
                         </li>
                         <li>
-                          <Link href="/list">
+                          <Link href="/employee_list" as="/list/employee">
                             <a>Listar</a>
                           </Link>
                         </li>
@@ -210,7 +210,7 @@ class Nav extends Component {
                   }
                 >
                   <Link href="#">
-                    <a id="ex">Extra Pages</a>
+                    <a id="ex">Nómina</a>
                   </Link>
                   <ul className="submenu megamenu">
                     <li>
@@ -220,8 +220,8 @@ class Nav extends Component {
                             this.state.SubTab === "pricing" ? "active" : ""
                           }
                         >
-                          <Link href="pages-pricing">
-                            <a>Pricing</a>
+                          <Link href="/new_payroll" as="/new/payroll">
+                            <a>Crear Nueva Nómina</a>
                           </Link>
                         </li>
                       </ul>

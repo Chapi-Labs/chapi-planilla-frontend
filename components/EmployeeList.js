@@ -77,7 +77,10 @@ class EmployeeList extends Component {
         newRow = {
           ...newRow,
           [column.field]: (
-            <Mutation mutation={UPDATE_EMPLOYEE_MUTATION}>
+            <Mutation
+              mutation={UPDATE_EMPLOYEE_MUTATION}
+              value={row[column.field]}
+            >
               {(updateEmployee, { loading, error }) => (
                 <Editable
                   dataType="text"
