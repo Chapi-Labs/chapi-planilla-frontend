@@ -51,7 +51,7 @@ class Login extends Component {
               refetchQueries={[{ query: CURRENT_USER_QUERY }]}
             >
               {(login, { error, loading }) => {
-                if (!loading) return <Loading loading={!loading}/>
+                if (loading) return <Loading loading={loading}/>
                 return (
                   <Form
                     method="post"
