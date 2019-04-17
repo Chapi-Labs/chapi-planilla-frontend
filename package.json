@@ -10,21 +10,29 @@
     "build": "next build",
     "start": "next start -p $PORT",
     "deploy": "now --target production",
-    "heroku-postbuild": "next build"
+    "heroku-postbuild": "next build",
+    "analyze": "cross-env BUNDLE_ANALYZE=both next build",
+    "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
+    "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.8.1",
+    "@fortawesome/fontawesome-svg-core": "^1.2.17",
+    "@fortawesome/free-regular-svg-icons": "^5.8.1",
+    "@fortawesome/free-solid-svg-icons": "^5.8.1",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
     "apollo-boost": "^0.3.1",
     "bootstrap": "^4.3.1",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
+    "file-loader": "^3.0.1",
     "graphql": "^14.2.0",
     "graphql-tag": "^2.10.1",
     "mdbreact": "git+https://github.com/Chapi-Labs/React-Bootstrap-with-Material-Design",
     "next": "^8.0.3",
-    "next-fonts": "^0.17.0",
     "next-compose-plugins": "^2.1.1",
+    "next-fonts": "^0.17.0",
     "next-with-apollo": "^3.4.0",
     "node-sass": "^4.11.0",
     "nprogress": "^0.2.0",
@@ -36,10 +44,11 @@
     "react-x-editable": "^0.0.10-beta",
     "reactstrap": "^7.1.0",
     "resolve-url-loader": "^3.0.1",
-    "@fortawesome/fontawesome-free": "^5.8.1",
-    "file-loader": "^3.0.1",
-    "url-loader": "^1.1.2"
+    "url-loader": "^1.1.2",
+    "@fortawesome/react-fontawesome": "^0.1.4"
   },
-  "devDependencies": { 
+  "devDependencies": {
+    "@zeit/next-bundle-analyzer": "^0.1.2",
+    "cross-env": "^5.2.0"
   }
 }

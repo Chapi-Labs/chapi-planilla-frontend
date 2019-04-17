@@ -6,6 +6,7 @@ import { CURRENT_USER_QUERY } from './User';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import Loading from './Loading';
 import Error from './Error';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -49,15 +50,15 @@ class Login extends Component {
               variables={this.state}
               refetchQueries={[{ query: CURRENT_USER_QUERY }]}
             >
-              {(signup, { error, loading }) => {
-                if (loading) return <Loading loading={loading}/>
+              {(login, { error, loading }) => {
+                if (!loading) return <Loading loading={!loading}/>
                 return (
                   <Form
                     method="post"
                     className="form-horizontal m-t-30"
                     onSubmit={async e => {
                       e.preventDefault();
-                      await signup();
+                      await login();
                       this.setState({ name: '', email: '', password: '' });
                     }}
                   >
@@ -103,7 +104,7 @@ class Login extends Component {
                       <div className="col-12 m-t-20">
                         <Link href="/">
                           <a>
-                            <i className="mdi mdi-lock" /> Recuperar
+                            <FontAwesomeIcon icon="lock" className="m-r-5"/>Recuperar
                             contraseña
                           </a>
                         </Link>

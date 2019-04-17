@@ -3,6 +3,7 @@ import Home from './index';
 import Page from '../components/Page';
 import { ApolloProvider } from 'react-apollo';
 import withData from '../lib/withData';
+import '@fortawesome/fontawesome-svg-core/styles.css';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
