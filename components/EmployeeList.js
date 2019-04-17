@@ -89,6 +89,8 @@ class EmployeeList extends Component {
                   id={row.id}
                   column={column.field}
                   updateFunction={updateEmployee}
+                  bsBtnType="primary"
+                  bsBtnClassNames="m-r-5"
                   handleSubmit={this.handleSubmit}
                 />
               )}

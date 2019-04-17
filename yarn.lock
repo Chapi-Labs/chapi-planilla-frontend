@@ -5618,7 +5618,7 @@ react-transition-group@^2.3.1:
 
 "react-x-editable@git+https://github.com/Chapi-Labs/react-x-editable":
   version "0.0.10-beta"
-  resolved "git+https://github.com/Chapi-Labs/react-x-editable#2a391cfc425a2941e7a8f149a0ec3f1adf38db86"
+  resolved "git+https://github.com/Chapi-Labs/react-x-editable#45c097b7832bff51fc43752022febd823aea8ef7"
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^1.2.17"
     "@fortawesome/react-fontawesome" "^0.1.4"
