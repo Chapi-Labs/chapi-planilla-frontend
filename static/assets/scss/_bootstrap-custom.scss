@@ -26,13 +26,10 @@
   color: $dark;
 }
 
-.breadcrumb>li+li:before {
-  padding: 0 5px;
-  color: $muted;
-  content: "\f105" !important;
-  font-family: FontAwesome;
+.breadcrumb>li>svg {
+  margin-right: 5px;
+  margin-left: 5px;
 }
-
 // blockquote
 
 .blockquote {

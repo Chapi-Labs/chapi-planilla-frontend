@@ -201,6 +201,29 @@ class Nav extends Component {
                     </li>
                   </ul>
                 </li>
+                <li className="has-submenu" onClick={this.toggleSubMenu}>
+                  <Link href="#">
+                    <a id="ex">
+                      <i className="ti-archive" /> Empresas
+                    </a>
+                  </Link>
+                  <ul
+                    className="submenu megamenu"
+                    ref={input => {
+                      this.myInput = input;
+                    }}
+                  >
+                    <li>
+                      <ul>
+                        <li>
+                          <Link href="/new_company">
+                            <a>Crear Nuevo</a>
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
 
                 <li
                   className={
