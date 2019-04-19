@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import Link from 'next/link';
 import gql from 'graphql-tag';
-import { CURRENT_USER_QUERY } from './User';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import Router from 'next/router';
+
+import { CURRENT_USER_QUERY } from './User';
+import Error from './Error';
 
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
@@ -40,12 +42,14 @@ class Signup extends Component {
                   <h4 className="font-20 m-b-5">Crear Usuario</h4>
                   <p className="text-white-50 mb-4">Chapi Planilla</p>
                   <Link href="/">
-                    <img
-                      src="../static/assets/images/logo-sm.png"
-                      className="logo logo-admin"
-                      height="24"
-                      alt="logo"
-                    />
+                    <div className="logo logo-admin">
+                      <img
+                        src="../static/assets/images/logo-sm.png"
+                        className=""
+                        height="50"
+                        alt="logo"
+                      />
+                    </div>
                   </Link>
                 </div>
                 <div className="account-card-content">
@@ -55,12 +59,13 @@ class Signup extends Component {
                     onSubmit={async e => {
                       e.preventDefault();
                       await signup();
-                      this.setState({ name: '', email: '', password: '' });
+                      this.setState({ name: "", email: "", password: "" });
                       Router.push({
-                        pathname: '/',
-                      })
+                        pathname: "/"
+                      });
                     }}
                   >
+                    <Error error={error} />
                     <FormGroup>
                       <Label>Email</Label>
                       <Input
@@ -91,6 +96,7 @@ class Signup extends Component {
                         type="password"
                         name="password"
                         className="form-control"
+                        autoComplete="password"
                         placeholder="Ingresar contraseña"
                         value={this.state.password}
                         onChange={this.saveToState}
@@ -111,7 +117,7 @@ class Signup extends Component {
                     <FormGroup>
                       <div className="col-12 m-t-20">
                         <p className="mb-0">
-                          By registering you agree to the{' '}
+                          By registering you agree to the{" "}
                           <Link href="#">
                             <a className="text-primary">Terms of Use</a>
                           </Link>
@@ -124,10 +130,10 @@ class Signup extends Component {
 
               <div className="m-t-40 text-center">
                 <p>
-                  Already have an account ?{' '}
+                  Already have an account ?{" "}
                   <Link href="/login">
                     <a className="font-500 text-primary"> Login </a>
-                  </Link>{' '}
+                  </Link>{" "}
                 </p>
                 <div className="m-t-40 text-center">
                   <p>© {new Date().getFullYear()} Chapi Labs </p>

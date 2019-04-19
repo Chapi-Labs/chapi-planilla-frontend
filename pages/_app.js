@@ -1,7 +1,7 @@
 import App, { Container } from 'next/app';
 import Home from './index';
 import Page from '../components/Page';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider, ApolloConsumer } from 'react-apollo';
 import withData from '../lib/withData';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 
@@ -22,7 +22,11 @@ class MyApp extends App {
       <Container>
         <ApolloProvider client={apollo}>
           <Page>
-            <Component {...pageProps} />
+            <ApolloConsumer>
+              {client => (
+                <Component {...pageProps} mutate={client.mutate} query={client.query}/>
+              )}
+            </ApolloConsumer>
           </Page>
         </ApolloProvider>
       </Container>

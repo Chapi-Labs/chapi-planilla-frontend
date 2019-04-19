@@ -9,6 +9,10 @@ app.prepare()
 .then(() => {
   const server = express()
     
+  server.get('/new/payroll', (req, res) => {
+    const actualPage = '/new_payroll';
+    app.render(req, res, actualPage, {});
+  })
   server.get('*', (req, res) => {
     return handle(req, res)
   })
