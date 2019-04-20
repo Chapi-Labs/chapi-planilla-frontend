@@ -6,17 +6,8 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import Router from 'next/router';
 
 import { CURRENT_USER_QUERY } from './User';
+import { SIGNUP_MUTATION } from './graphql/mutations';
 import Error from './Error';
-
-const SIGNUP_MUTATION = gql`
-  mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
-    signup(email: $email, name: $name, password: $password) {
-      id
-      email
-      name
-    }
-  }
-`;
 
 class Signup extends Component {
   state = {

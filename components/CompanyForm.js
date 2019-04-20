@@ -3,20 +3,10 @@ import { Mutation } from 'react-apollo';
 import Error from './Error';
 import Loading from './Loading';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import gql from 'graphql-tag';
 
-const COMPANY_MUTATION = gql`
-  mutation COMPANY_MUTATION(
-    $name: String!
-  ) {
-    createCompany(
-      name: $name
-    ) {
-      id
-      name
-    }
-  }
-`;
+import { COMPANY_MUTATION } from './graphql/mutations';
+
+
 class CompanyForm extends Component {
   state = {
     name: '',

@@ -1,22 +1,14 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
 import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
-import { CURRENT_USER_QUERY } from './User';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import Loading from './Loading';
-import Error from './Error';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const SIGNIN_MUTATION = gql`
-  mutation SIGNIN_MUTATION($email: String!, $password: String!) {
-    signin(email: $email, password: $password) {
-      id
-      email
-      name
-    }
-  }
-`;
+import { CURRENT_USER_QUERY } from './User';
+import { SIGNIN_MUTATION } from './graphql/mutations';
+import Loading from './Loading';
+import Error from './Error';
+
 
 class Login extends Component {
   state = {

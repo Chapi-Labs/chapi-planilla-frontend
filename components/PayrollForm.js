@@ -1,46 +1,20 @@
 import React, { Component, Fragment } from 'react';
-import Link from 'next/link';
-import { Mutation, Query, ApolloConsumer } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import gql from 'graphql-tag';
 import Creatable from 'react-select/lib/Creatable';
 import { adopt } from 'react-adopt';
 import Error from './Error';
 import Loading from './Loading';
-import { COMPANY_MUTATION } from './CompanyForm';
+import { COMPANY_MUTATION, CREATE_PAYROLL_MUTATION } from './graphql/mutations';
+import { SELECT_COMPANY_QUERY } from './graphql/queries';
 
-const PAYROLL_MUTATION = gql`
-  mutation PAYROLL_MUTATION(
-    $first_name: String!
-    $last_name: String!
-    $email: String!
-  ) {
-    createEmployee(
-      first_name: $first_name
-      last_name: $last_name
-      email: $email
-    ) {
-      id
-      email
-    }
-  }
-`;
 
-const COMPANY_QUERY = gql`
-  query COMPANY_QUERY {
-    companies(where: { active: true }) {
-      id
-      value
-      label
-    }
-  }
-`
 
 
 
 const Composed = adopt({
   f1: ({ render }) => (
-    <Mutation mutation={PAYROLL_MUTATION}>
+    <Mutation mutation={CREATE_PAYROLL_MUTATION}>
       {(mutation, result) => render({ mutation, result })}
     </Mutation>
   ),
@@ -115,7 +89,7 @@ class PayrollForm extends Component {
   async componentDidMount() {
     const { query } = this.props
     const { data } = await query({
-      query: COMPANY_QUERY,
+      query: SELECT_COMPANY_QUERY,
     });
     this.setState(previousState => ({ 
       ...previousState,

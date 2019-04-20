@@ -2,40 +2,12 @@ import React, { Component } from "react";
 import Link from "next/link";
 import { Query, Mutation } from "react-apollo";
 import { MDBDataTable } from "mdbreact";
-import gql from "graphql-tag";
 import Editable from "react-x-editable";
-import Nav from "../components/Nav";
 
-const LIST_EMPLOYEE = gql`
-  query LIST_EMPLOYEE {
-    employees {
-      id
-      first_name
-      last_name
-      email
-    }
-  }
-`;
-const UPDATE_EMPLOYEE_MUTATION = gql`
-  mutation UPDATE_EMPLOYEE_MUTATION(
-    $id: ID!
-    $first_name: String
-    $last_name: String
-    $email: String
-  ) {
-    updateEmployee(
-      id: $id
-      first_name: $first_name
-      last_name: $last_name
-      email: $email
-    ) {
-      id
-      first_name
-      last_name
-      email
-    }
-  }
-`;
+import Nav from "../components/Nav";
+import { UPDATE_EMPLOYEE_MUTATION } from './graphql/mutations'
+import { LIST_EMPLOYEE } from './graphql/queries';
+
 const data = {
   columns: [
     {

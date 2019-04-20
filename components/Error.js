@@ -2,7 +2,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-const DisplayError = ({ error }) => {
+const DisplayError = ({ error}) => {
   if (!error || !error.message) return null;
   if (error.networkError && error.networkError.result && error.networkError.result.errors.length) {
     return error.networkError.result.errors.map((error, i) => (
@@ -13,6 +13,16 @@ const DisplayError = ({ error }) => {
         </p>
       </div>
     ));
+  }
+  if (error.type === 'success') {
+    return (
+      <div className="btn btn-success btn-block m-b-10">
+        <span>
+          <strong>Success! </strong>
+          {error.message}
+        </span>
+      </div>
+    );
   }
   return (
     <div className="btn btn-outline-danger btn-block m-b-10">
