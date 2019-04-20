@@ -1,13 +1,12 @@
-import React, { Component, Fragment } from 'react';
-import { Mutation } from 'react-apollo';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import Creatable from 'react-select/lib/Creatable';
-import { adopt } from 'react-adopt';
-import Error from './Error';
-import Loading from './Loading';
-import { COMPANY_MUTATION, CREATE_PAYROLL_MUTATION } from './graphql/mutations';
-import { SELECT_COMPANY_QUERY, SELECT_EMPLOYEE_LIST } from './graphql/queries';
-
+import React, { Component, Fragment } from "react";
+import { Mutation } from "react-apollo";
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import Creatable from "react-select/lib/Creatable";
+import { adopt } from "react-adopt";
+import Error from "./Error";
+import Loading from "./Loading";
+import { COMPANY_MUTATION, CREATE_PAYROLL_MUTATION } from "./graphql/mutations";
+import { SELECT_COMPANY_QUERY, SELECT_EMPLOYEE_LIST } from "./graphql/queries";
 
 const Composed = adopt({
   f1: ({ render }) => (
@@ -21,7 +20,6 @@ const Composed = adopt({
     </Mutation>
   )
 });
-
 
 class PayrollForm extends Component {
   state = {
@@ -46,11 +44,11 @@ class PayrollForm extends Component {
   };
 
   handleChange = (inputValue, actionMeta) => {
-    const { mutate } = this.props
+    const { mutate } = this.props;
     this.setState(previousState => ({
       ...previousState,
       employees: {
-         ...previousState.employees,
+        ...previousState.employees,
         value: inputValue
       }
     }));
@@ -88,22 +86,24 @@ class PayrollForm extends Component {
     }
   };
 
-
   async componentDidMount() {
-    const { query } = this.props
+    const { query } = this.props;
     const query1 = query({
-      query: SELECT_COMPANY_QUERY,
+      query: SELECT_COMPANY_QUERY
     });
     const query2 = query({
       query: SELECT_EMPLOYEE_LIST
     });
-    const [{ data: dataR1 }, { data: dataR2 }] = await Promise.all([query1, query2]);
+    const [{ data: dataR1 }, { data: dataR2 }] = await Promise.all([
+      query1,
+      query2
+    ]);
     this.setState(previousState => ({
       ...previousState,
       companies: {
         ...previousState.companies,
         options: dataR1.companies
-      }, 
+      },
       employees: {
         ...previousState.employees,
         options: dataR2.employeesSelect
@@ -120,10 +120,7 @@ class PayrollForm extends Component {
             <div className="card-body">
               <Composed>
                 {({ f1 }) => {
-                  const { 
-                    mutation: createPayroll,
-                    result: resultPayroll
-                  } = f1;
+                  const { mutation: createPayroll, result: resultPayroll } = f1;
                   if (resultPayroll.loading) {
                     return <Loading loading={true} />;
                   }
