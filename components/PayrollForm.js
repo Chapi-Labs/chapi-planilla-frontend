@@ -6,10 +6,7 @@ import { adopt } from 'react-adopt';
 import Error from './Error';
 import Loading from './Loading';
 import { COMPANY_MUTATION, CREATE_PAYROLL_MUTATION } from './graphql/mutations';
-import { SELECT_COMPANY_QUERY } from './graphql/queries';
-
-
-
+import { SELECT_COMPANY_QUERY, SELECT_EMPLOYEE_LIST } from './graphql/queries';
 
 
 const Composed = adopt({
@@ -30,6 +27,12 @@ class PayrollForm extends Component {
   state = {
     name: "",
     company_id: "",
+    companies: {
+      function: undefined,
+      loading: false,
+      options: [],
+      value: undefined
+    },
     employees: {
       function: undefined,
       loading: false,
@@ -88,20 +91,28 @@ class PayrollForm extends Component {
 
   async componentDidMount() {
     const { query } = this.props
-    const { data } = await query({
+    const query1 = query({
       query: SELECT_COMPANY_QUERY,
     });
-    this.setState(previousState => ({ 
+    const query2 = query({
+      query: SELECT_EMPLOYEE_LIST
+    });
+    const [{ data: dataR1 }, { data: dataR2 }] = await Promise.all([query1, query2]);
+    this.setState(previousState => ({
       ...previousState,
+      companies: {
+        ...previousState.companies,
+        options: dataR1.companies
+      }, 
       employees: {
         ...previousState.employees,
-        options: data.companies
+        options: dataR2.employeesSelect
       }
     }));
   }
 
   render() {
-    const { employees } = this.state;
+    const { employees, companies } = this.state;
     return (
       <div className="row">
         <div className="col-12">
@@ -113,9 +124,7 @@ class PayrollForm extends Component {
                     mutation: createPayroll,
                     result: resultPayroll
                   } = f1;
-                  if (
-                    resultPayroll.loading
-                  ) {
+                  if (resultPayroll.loading) {
                     return <Loading loading={true} />;
                   }
                   return (
@@ -143,6 +152,18 @@ class PayrollForm extends Component {
                           <Label>Empresa</Label>
                           <Creatable
                             instanceId="select2"
+                            isDisabled={companies.loading}
+                            isLoading={companies.loading}
+                            onChange={this.handleChange}
+                            options={companies.options}
+                            value={companies.value}
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label>Colaboradores</Label>
+                          <Creatable
+                            instanceId="select"
+                            isMulti
                             isDisabled={employees.loading}
                             isLoading={employees.loading}
                             onChange={this.handleChange}

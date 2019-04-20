@@ -30,8 +30,19 @@ const SELECT_COMPANY_QUERY = gql`
   }
 `
 
+const SELECT_EMPLOYEE_LIST = gql`
+  query SELECT_EMPLOYEE_LIST {
+    employeesSelect {
+      id
+      value
+      label
+    }
+  }
+`;
+
 export {
   COMPANY_QUERY,
   LIST_EMPLOYEE,
+  SELECT_EMPLOYEE_LIST,
   SELECT_COMPANY_QUERY,
 }
