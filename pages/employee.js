@@ -1,11 +1,10 @@
-import Nav from '../components/Nav';
-import Employee from '../components/Employee';
+import Container from "../components/Container";
+import Employee from "../components/Employee";
 
-const EmployeePage = () => (
-  <div>
-    <Nav />
-    <Employee />
-  </div>
+const EmployeePage = (props) => (
+  <Container title="Crear Colaborador" subtitle="Colaborador">
+    <Employee {...props}/>
+  </Container>
 );
 
 export default EmployeePage;

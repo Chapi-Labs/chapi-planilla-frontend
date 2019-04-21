@@ -6,14 +6,31 @@
 
 @media (max-width: 620px) {
     .mo-mb-2 {
-    margin-bottom: 10px;
+      margin-bottom: 10px;
     }
     
     .mo-mt-2 {
-    margin-top: 10px !important;
+      margin-top: 10px !important;
     }
 }
 
+@media (max-width: 991px) {
+  $max: 25;
+  $step: 5;
+
+  @for $i from 0 through ceil($max/$step) {
+    $value: ($i)*$step;
+    .m-md-t-#{$value} {
+      margin-top: #{$value}px;
+    }
+    .m-md-b-#{$value} {
+      margin-bottom: #{$value}px;
+    }
+  }
+  .test {
+    margin-top: 15px;
+  }
+}
 
 @media (min-width: 768px) and (max-width: 991px) {
     body {

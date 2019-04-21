@@ -1,8 +1,11 @@
 import React, { Component, Fragment } from "react";
 import { Mutation } from "react-apollo";
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { Button, Form, FormGroup, Label, Input, Row, Col } from "reactstrap";
 import Creatable from "react-select/lib/Creatable";
 import { adopt } from "react-adopt";
+import { Popover, PopoverHeader, PopoverBody } from "reactstrap";
+import Employee from "./Employee";
+
 import Error from "./Error";
 import Loading from "./Loading";
 import { COMPANY_MUTATION, CREATE_PAYROLL_MUTATION } from "./graphql/mutations";
@@ -35,8 +38,9 @@ class PayrollForm extends Component {
       function: undefined,
       loading: false,
       options: [],
-      value: undefined
+      value: []
     },
+    popoverOpen: false,
     config_id: ""
   };
   saveToState = e => {
@@ -47,16 +51,16 @@ class PayrollForm extends Component {
     const { mutate } = this.props;
     this.setState(previousState => ({
       ...previousState,
-      employees: {
-        ...previousState.employees,
+      companies: {
+        ...previousState.companies,
         value: inputValue
       }
     }));
     if (actionMeta.action === "create-option") {
       this.setState(previousState => ({
         ...previousState,
-        employees: {
-          ...previousState.employees,
+        companies: {
+          ...previousState.companies,
           loading: true
         }
       }));
@@ -65,15 +69,15 @@ class PayrollForm extends Component {
         mutation: COMPANY_MUTATION,
         variables: { name: inputValue.value }
       });
-      r.then((item) => {
+      r.then(item => {
         // add to state
         this.setState(previousState => ({
           ...previousState,
-          employees: {
-            ...previousState.employees,
+          companies: {
+            ...previousState.companies,
             loading: false,
             options: [
-              ...previousState.employees.options,
+              ...previousState.companies.options,
               {
                 id: item.data.createCompany.id,
                 value: item.data.createCompany.id,
@@ -83,6 +87,18 @@ class PayrollForm extends Component {
           }
         }));
       });
+    }
+  };
+
+  handleEmployeeChange = (inputValue, actionMeta) => {
+    if (actionMeta.action === "select-option") {
+      this.setState(previousState => ({
+        ...previousState,
+        employees: {
+          ...previousState.employees,
+          value: inputValue
+        }
+      }));
     }
   };
 
@@ -111,6 +127,37 @@ class PayrollForm extends Component {
     }));
   }
 
+  toggle = () => {
+    this.setState({
+      popoverOpen: !this.state.popoverOpen
+    });
+  };
+
+  addEmployee = item => {
+    this.setState(previousState => ({
+      popoverOpen: false,
+      employees: {
+        ...previousState.employees,
+        value: [
+          ...previousState.employees.value,
+          {
+            id: item.id,
+            value: item.id,
+            label: `${item.first_name} ${item.last_name}`
+          }
+        ],
+        options: [
+          ...previousState.employees.options,
+          {
+            id: item.id,
+            value: item.id,
+            label: `${item.first_name} ${item.last_name}`
+          }
+        ]
+      }
+    }));
+  };
+
   render() {
     const { employees, companies } = this.state;
     return (
@@ -129,7 +176,6 @@ class PayrollForm extends Component {
                       <Form
                         method="post"
                         onSubmit={async e => {
-                          console.log("entra");
                           e.preventDefault();
                           await createPayroll();
                         }}
@@ -158,17 +204,49 @@ class PayrollForm extends Component {
                         </FormGroup>
                         <FormGroup>
                           <Label>Colaboradores</Label>
-                          <Creatable
-                            instanceId="select"
-                            isMulti
-                            isDisabled={employees.loading}
-                            isLoading={employees.loading}
-                            onChange={this.handleChange}
-                            options={employees.options}
-                            value={employees.value}
-                          />
+                          <Row>
+                            <Col lg="10">
+                              <Creatable
+                                instanceId="select"
+                                isMulti
+                                isDisabled={employees.loading}
+                                isLoading={employees.loading}
+                                onChange={this.handleEmployeeChange}
+                                options={employees.options}
+                                value={employees.value}
+                              />
+                            </Col>
+                            <Col lg="2" md="3" sm="12 m-md-t-10">
+                              <Button
+                                type="button"
+                                id="PopoverClick"
+                                className="waves-effect"
+                                block
+                              >
+                                <Popover
+                                  isOpen={this.state.popoverOpen}
+                                  toggle={this.toggle}
+                                  placement="bottom"
+                                  target="PopoverClick"
+                                >
+                                  <PopoverHeader>
+                                    Crear Nuevo Colaborador
+                                  </PopoverHeader>
+                                  <PopoverBody>
+                                    <Employee
+                                      {...this.props}
+                                      addEmployee={this.addEmployee}
+                                    />
+                                  </PopoverBody>
+                                </Popover>{" "}
+                                Crear Nuevo
+                              </Button>
+                            </Col>
+                          </Row>
                         </FormGroup>
-                        <Button type="submit">Guardar</Button>
+                        <Button className="waves-effect" type="submit">
+                          Guardar
+                        </Button>
                       </Form>
                     </Fragment>
                   );
