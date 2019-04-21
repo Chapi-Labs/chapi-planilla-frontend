@@ -8,6 +8,8 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import Signout from './Signout';
 import '../static/assets/css/nprogress.css';
 
@@ -104,11 +106,7 @@ class Nav extends Component {
                         color=""
                         className="dropdown-toggle testflag nav-link arrow-none waves-effect nav-user"
                       >
-                        <img
-                          src="../static/assets/images/users/user-4.jpg"
-                          alt="user"
-                          className="rounded-circle"
-                        />
+                        <FontAwesomeIcon icon="user" size="2x" />
                       </DropdownToggle>
                       <DropdownMenu>
                         <DropdownItem>
