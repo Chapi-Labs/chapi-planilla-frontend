@@ -44,18 +44,19 @@ class EmployeeList extends Component {
           first_name: this.state.first_name,
           last_name: this.state.last_name
         })
+      } else {
+        setTimeout(() => {
+          this.setState({
+            first_name: "",
+            last_name: "",
+            email: "",
+            response: {
+              message: "",
+              type: ""
+            }
+          });
+        }, 2000);
       }
-      setTimeout(() => {
-        this.setState({
-          first_name: "",
-          last_name: "",
-          email: "",
-          response: {
-            message: "",
-            type: ""
-          }
-        });
-      }, 2000);
     }
   };
 
@@ -101,6 +102,7 @@ class EmployeeList extends Component {
                   />
                 </FormGroup>
                 <Button
+                  className="waves-effect"
                   type={
                     this.props.addEmployee === undefined ? "submit" : "button"
                   }
