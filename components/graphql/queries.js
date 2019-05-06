@@ -40,9 +40,20 @@ const SELECT_EMPLOYEE_LIST = gql`
   }
 `;
 
+const SELECT_PAYROLL_CONFIG = gql`
+  query SELECT_PAYROLL_CONFIG {
+    payrollConfigSelect {
+      id
+      value
+      label
+    }
+  }
+`
+
 export {
   COMPANY_QUERY,
   LIST_EMPLOYEE,
   SELECT_EMPLOYEE_LIST,
   SELECT_COMPANY_QUERY,
-}
+  SELECT_PAYROLL_CONFIG,
+};
