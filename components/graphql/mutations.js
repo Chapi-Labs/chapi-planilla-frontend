@@ -39,11 +39,21 @@ const CREATE_EMPLOYEE_MUTATION = gql`
     $first_name: String!
     $last_name: String!
     $email: String!
+    $hire_date: String
+    $legal_id: String!
+    $base_salary: Float
+    $company_id: String
+    $frequency: String
   ) {
     createEmployee(
       first_name: $first_name
       last_name: $last_name
       email: $email
+      base_salary: $base_salary
+      legal_id: $legal_id
+      company: $company_id
+      hire_date: $hire_date
+      payroll_frequency: $frequency
     ) {
       id
       email

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Row, Col } from "reactstrap";
 import Creatable from "react-select/lib/Creatable";
+import CurrencyInput from 'react-currency-input';
 
 import {
   CREATE_EMPLOYEE_MUTATION,
@@ -20,7 +21,6 @@ class EmployeeList extends Component {
     legal_id: "",
     title: "",
     base_salary: 0.0,
-    company_id: "",
     response: {
       type: "",
       message: ""
@@ -41,16 +41,16 @@ class EmployeeList extends Component {
 
   async componentDidMount() {
     const { query } = this.props;
-    const query1 =  query({
+    const query1 = query({
       query: SELECT_COMPANY_QUERY
     });
-     const query2 = query({
-       query: SELECT_PAYROLL_CONFIG
-     });
-      const [{ data: dataR1 }, { data: dataR2 }] = await Promise.all([
-        query1,
-        query2
-      ]);
+    const query2 = query({
+      query: SELECT_PAYROLL_CONFIG
+    });
+    const [{ data: dataR1 }, { data: dataR2 }] = await Promise.all([
+      query1,
+      query2
+    ]);
     this.setState(previousState => ({
       ...previousState,
       companies: {
@@ -64,11 +64,23 @@ class EmployeeList extends Component {
     }));
   }
 
-  saveToState = e => {
-    console.log(e.target.value);
-    this.setState({ [e.target.name]: e.target.value });
+  saveToState = (e, maskedvalue, floatvalue) => {
+    console.log(this.state);
+    this.setState({ [e.target.name]: floatvalue == null ? e.target.value: floatvalue });
   };
-  handleChange = (inputValue, actionMeta) => {
+
+  handleChangeSalary = (inputValue, actionMeta) => {
+    const { mutate } = this.props;
+    this.setState(previousState => ({
+      ...previousState,
+      config: {
+        ...previousState.config,
+        value: inputValue
+      }
+    }));
+  }
+
+  handleChangeCompany = (inputValue, actionMeta) => {
     const { mutate } = this.props;
     this.setState(previousState => ({
       ...previousState,
@@ -116,7 +128,11 @@ class EmployeeList extends Component {
     this.setState({ loading: true });
     const r = await mutate({
       mutation: CREATE_EMPLOYEE_MUTATION,
-      variables: this.state
+      variables: {
+        ...this.state,
+        company_id: this.state.companies.value.id,
+        frequency: this.state.config.value.id
+      }
     });
     this.setState({ loading: false });
     if (r.hasOwnProperty("data")) {
@@ -235,7 +251,7 @@ class EmployeeList extends Component {
                     instanceId="select2"
                     isDisabled={companies.loading}
                     isLoading={companies.loading}
-                    onChange={this.handleChange}
+                    onChange={this.handleChangeCompany}
                     options={companies.options}
                     value={companies.value}
                   />
@@ -246,28 +262,26 @@ class EmployeeList extends Component {
                     instanceId="select2"
                     isDisabled={config.loading}
                     isLoading={config.loading}
-                    onChange={this.handleChange}
+                    onChange={this.handleChangeSalary}
                     options={config.options}
                     value={config.value}
                   />
                 </FormGroup>
                 <FormGroup>
                   <Label>Sueldo</Label>
-                  <Input
-                    type="number"
+                  <CurrencyInput
+                    prefix="$"
                     name="base_salary"
                     className="form-control"
                     placeholder="Sueldo"
                     value={this.state.base_salary}
-                    OnSave={this.saveToState}
+                    onChangeEvent={this.saveToState}
                   />
                 </FormGroup>
                 <Button
                   className="waves-effect"
                   type={
-                    this.props.addEmployee === undefined
-                      ? "submit"
-                      : "button"
+                    this.props.addEmployee === undefined ? "submit" : "button"
                   }
                   onClick={this.handleSubmit}
                 >
