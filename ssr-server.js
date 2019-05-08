@@ -13,6 +13,10 @@ app.prepare()
     const actualPage = '/new_payroll';
     app.render(req, res, actualPage, {});
   })
+  server.get("/employee/list", (req, res) => {
+    const actualPage = "/employee_list";
+    app.render(req, res, actualPage, {});
+  });
   server.get('*', (req, res) => {
     return handle(req, res)
   })

@@ -6,12 +6,16 @@ const UPDATE_EMPLOYEE_MUTATION = gql`
     $first_name: String
     $last_name: String
     $email: String
+    $base_salary: Float
+    $company_name: String
   ) {
     updateEmployee(
       id: $id
       first_name: $first_name
       last_name: $last_name
       email: $email
+      base_salary: $base_salary
+      company: $company_name
     ) {
       id
       first_name

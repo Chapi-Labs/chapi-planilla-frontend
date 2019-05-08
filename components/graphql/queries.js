@@ -8,6 +8,10 @@ const LIST_EMPLOYEE = gql`
       first_name
       last_name
       email
+      base_salary
+      company {
+        name
+      }
     }
   }
 `;

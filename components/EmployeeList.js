@@ -8,25 +8,48 @@ import Nav from "../components/Nav";
 import { UPDATE_EMPLOYEE_MUTATION } from './graphql/mutations'
 import { LIST_EMPLOYEE } from './graphql/queries';
 
+const getNestedObject = (nestedObj, pathArr) => {
+  return pathArr.reduce(
+    (obj, key) => (obj && obj[key] !== "undefined" ? obj[key] : undefined),
+    nestedObj
+  );
+}
 const data = {
   columns: [
     {
       label: "Nombres",
       field: "first_name",
       sort: "asc",
-      width: 150
+      width: 150,
+      disabled: false
     },
     {
       label: "Apellidos",
       field: "last_name",
       sort: "asc",
-      width: 270
+      width: 270,
+      disabled: false
     },
     {
       label: "Email",
       field: "email",
       sort: "asc",
-      width: 200
+      width: 200,
+      disabled: false
+    },
+    {
+      label: "Salario Base",
+      field: "base_salary",
+      sort: "asc",
+      width: 200,
+      disabled: false
+    },
+    {
+      label: "Empresa",
+      field: "company.name",
+      sort: "asc",
+      width: 200,
+      disabled: true
     }
   ],
   rows: []
@@ -36,7 +59,7 @@ class EmployeeList extends Component {
     target.props.updateFunction({
       variables: {
         id: target.props.id,
-        [target.props.column]: target.newValue
+        [target.props.column.replace(".", "_")]: target.newValue
       }
     });
   }
@@ -51,18 +74,20 @@ class EmployeeList extends Component {
           [column.field]: (
             <Mutation
               mutation={UPDATE_EMPLOYEE_MUTATION}
-              value={row[column.field]}
+              value={getNestedObject(row, column.field.split("."))}
             >
               {(updateEmployee, { loading, error }) => (
                 <Editable
                   dataType="text"
                   mode="inline"
-                  value={row[column.field]}
+                  value={getNestedObject(row, column.field.split("."))}
                   id={row.id}
                   column={column.field}
+                  disabled={column.disabled}
                   updateFunction={updateEmployee}
                   bsBtnType="primary"
                   bsBtnClassNames="m-r-5"
+                  emptyValueText={"N/A"}
                   handleSubmit={this.handleSubmit}
                 />
               )}

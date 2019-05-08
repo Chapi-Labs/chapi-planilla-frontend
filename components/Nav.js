@@ -191,7 +191,7 @@ class Nav extends Component {
                           </Link>
                         </li>
                         <li>
-                          <Link href="/employee_list" as="/list/employee">
+                          <Link href="/employee_list" as="/employee/list">
                             <a>Listar</a>
                           </Link>
                         </li>
