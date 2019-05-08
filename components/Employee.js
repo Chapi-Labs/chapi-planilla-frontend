@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import { Button, Form, FormGroup, Label, Row, Col } from "reactstrap";
+import { Button, Form, FormGroup, Label, Row, Col, Input } from "reactstrap";
 import Creatable from "react-select/lib/Creatable";
 import CurrencyInput from 'react-currency-input';
+import SimpleReactValidator from "simple-react-validator";
 
 import {
   CREATE_EMPLOYEE_MUTATION,
   COMPANY_MUTATION
 } from "./graphql/mutations";
 import { SELECT_COMPANY_QUERY, SELECT_PAYROLL_CONFIG } from "./graphql/queries";
-import Input from "./forms/Input";
 import Loading from "./Loading";
 import Error from "./Error";
 
@@ -17,7 +17,7 @@ class EmployeeList extends Component {
     first_name: "",
     last_name: "",
     email: "",
-    hire_date: "",
+    hire_date: new Date().toISOString().substring(0, new Date().toISOString().indexOf("T")),
     legal_id: "",
     title: "",
     base_salary: 0.0,
@@ -28,16 +28,28 @@ class EmployeeList extends Component {
     companies: {
       loading: false,
       options: [],
-      value: undefined
+      value: ""
     },
     config: {
       loading: false,
       options: [],
-      value: undefined
+      value: ""
     },
     error: {},
-    loading: false
+    loading: false,
   };
+
+  constructor(props) {
+    super(props)
+    this.validator = new SimpleReactValidator({
+      messages: {
+        email: 'Este valor no es un correo',
+        required: 'Este valor es obligatorio',
+        // OR
+        default: 'El valor no es válido'  // will override all messages
+      }
+    });
+  }
 
   async componentDidMount() {
     const { query } = this.props;
@@ -65,8 +77,10 @@ class EmployeeList extends Component {
   }
 
   saveToState = (e, maskedvalue, floatvalue) => {
-    console.log(this.state);
-    this.setState({ [e.target.name]: floatvalue == null ? e.target.value: floatvalue });
+    this.setState({
+      [e.target.name]:
+        floatvalue == null ? e.target.value : floatvalue
+    });
   };
 
   handleChangeSalary = (inputValue, actionMeta) => {
@@ -123,33 +137,34 @@ class EmployeeList extends Component {
     }
   };
   handleSubmit = async e => {
-    const { mutate, addEmployee } = this.props;
+    const { mutate } = this.props;
     e.preventDefault();
+    if (!this.validator.allValid()) {
+      this.validator.showMessages();
+      // rerender to show messages for the first time
+      this.forceUpdate();
+      return;
+    }
     this.setState({ loading: true });
-    const r = await mutate({
-      mutation: CREATE_EMPLOYEE_MUTATION,
-      variables: {
-        ...this.state,
-        company_id: this.state.companies.value.id,
-        frequency: this.state.config.value.id
-      }
-    });
-    this.setState({ loading: false });
-    if (r.hasOwnProperty("data")) {
-      this.setState(previousState => ({
-        ...previousState,
-        response: {
-          type: "success",
-          message: `Created ${this.state.first_name} ${this.state.last_name}`
+    
+    try {
+      const r = await mutate({
+        mutation: CREATE_EMPLOYEE_MUTATION,
+        variables: {
+          ...this.state,
+          company_id: this.state.companies.value.id,
+          frequency: this.state.config.value.id
         }
-      }));
-      if (addEmployee !== undefined) {
-        addEmployee({
-          id: r.data.createEmployee.id,
-          first_name: this.state.first_name,
-          last_name: this.state.last_name
-        });
-      } else {
+      });
+      this.setState({ loading: false });
+      if (r.hasOwnProperty("data")) {
+        this.setState(previousState => ({
+          ...previousState,
+          response: {
+            type: "success",
+            message: `Creado ${this.state.first_name} ${this.state.last_name}`
+          }
+        }));
         setTimeout(() => {
           this.setState({
             first_name: "",
@@ -162,6 +177,15 @@ class EmployeeList extends Component {
           });
         }, 2000);
       }
+    } catch (e) {
+      console.log(e);
+      const errors = e.graphQLErrors.map(error => error.message);
+      this.setState({
+        loading: false,
+        error: {
+          message: errors[0]
+        }
+      });
     }
   };
 
@@ -186,8 +210,13 @@ class EmployeeList extends Component {
                         className="form-control"
                         placeholder="Nombres"
                         value={this.state.first_name}
-                        OnSave={this.saveToState}
+                        onChange={this.saveToState}
                       />
+                      {this.validator.message(
+                        "first_name_validation",
+                        this.state.first_name,
+                        "required"
+                      )}
                     </FormGroup>
                   </Col>
                   <Col xs="6">
@@ -198,8 +227,13 @@ class EmployeeList extends Component {
                         name="last_name"
                         placeholder="Apellidos"
                         value={this.state.last_name}
-                        OnSave={this.saveToState}
+                        onChange={this.saveToState}
                       />
+                      {this.validator.message(
+                        "last_name_validation",
+                        this.state.last_name,
+                        "required"
+                      )}
                     </FormGroup>
                   </Col>
                 </Row>
@@ -213,7 +247,7 @@ class EmployeeList extends Component {
                         className="form-control"
                         placeholder="Ingresar documento"
                         value={this.state.legal_id}
-                        OnSave={this.saveToState}
+                        onChange={this.saveToState}
                         required
                       />
                     </FormGroup>
@@ -227,8 +261,18 @@ class EmployeeList extends Component {
                         className="form-control"
                         placeholder="Date"
                         value={this.state.hire_date}
-                        OnSave={this.saveToState}
+                        onChange={this.saveToState}
                       />
+                      {this.validator.message(
+                        "date_validation",
+                        this.state.hire_date,
+                        [
+                          "required",
+                          {
+                            regex: /^(19[5-9][0-9]|20[0-4][0-9]|2050)[-/](0?[1-9]|1[0-2])[-/](0?[1-9]|[12][0-9]|3[01])$/
+                          }
+                        ]
+                      )}
                     </FormGroup>
                   </Col>
                 </Row>
@@ -240,8 +284,13 @@ class EmployeeList extends Component {
                     className="form-control"
                     placeholder="Ingresar email"
                     value={this.state.email}
-                    OnSave={this.saveToState}
+                    onChange={this.saveToState}
                   />
+                  {this.validator.message(
+                    "email_validation",
+                    this.state.email,
+                    "required|email"
+                  )}
                 </FormGroup>
                 <hr />
                 <h4>Información Laboral</h4>
@@ -255,6 +304,11 @@ class EmployeeList extends Component {
                     options={companies.options}
                     value={companies.value}
                   />
+                  {this.validator.message(
+                    "company_validation",
+                    companies.value,
+                    "required"
+                  )}
                 </FormGroup>
                 <FormGroup>
                   <Label>Tipo Sueldo</Label>
@@ -266,6 +320,11 @@ class EmployeeList extends Component {
                     options={config.options}
                     value={config.value}
                   />
+                  {this.validator.message(
+                    "salary_validation",
+                    config.value,
+                    "required"
+                  )}
                 </FormGroup>
                 <FormGroup>
                   <Label>Sueldo</Label>
@@ -278,15 +337,19 @@ class EmployeeList extends Component {
                     onChangeEvent={this.saveToState}
                   />
                 </FormGroup>
-                <Button
-                  className="waves-effect"
-                  type={
-                    this.props.addEmployee === undefined ? "submit" : "button"
-                  }
-                  onClick={this.handleSubmit}
-                >
-                  Guardar
-                </Button>
+                {!this.state.loading && (
+                  <Button
+                    className="waves-effect"
+                    type={
+                      this.props.addEmployee === undefined
+                        ? "submit"
+                        : "button"
+                    }
+                    onClick={this.handleSubmit}
+                  >
+                    Guardar
+                  </Button>
+                )}
               </Form>
             </div>
           </div>

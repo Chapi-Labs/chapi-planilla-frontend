@@ -7094,14 +7094,6 @@ react-transition-group@^2.3.1:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
-react-validate-form@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/react-validate-form/-/react-validate-form-1.0.7.tgz#2939db5eea8cd41b2495bcc064e13fb463e2ac40"
-  integrity sha512-u1cMeeU8hYiGDLofbsuw9/lD6vkzrVR1Z4zvo5t8jObXI+TFqzRInfD38sc9hkxMu9Vm6zduBg67QQtaiAROYQ==
-  dependencies:
-    lodash "^4.17.11"
-    rimraf "^2.6.3"
-
 "react-x-editable@git+https://github.com/Chapi-Labs/react-x-editable":
   version "0.0.10-beta"
   resolved "git+https://github.com/Chapi-Labs/react-x-editable#45c097b7832bff51fc43752022febd823aea8ef7"
@@ -7533,7 +7525,7 @@ rework@1.0.1:
     convert-source-map "^0.3.3"
     css "^2.0.0"
 
-rimraf@2, rimraf@^2.2.8, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2, rimraf@^2.6.3:
+rimraf@2, rimraf@^2.2.8, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"
   integrity sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==
@@ -7821,6 +7813,11 @@ simple-concat@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/simple-concat/-/simple-concat-1.0.0.tgz#7344cbb8b6e26fb27d66b2fc86f9f6d5997521c6"
   integrity sha1-c0TLuLbib7J9ZrL8hvn21Zl1IcY=
+
+simple-react-validator@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/simple-react-validator/-/simple-react-validator-1.0.7.tgz#936207ffc55e33326fcb574448c6bb5693b08175"
+  integrity sha512-Zv3F+aRoJfqsX3Vf7vIb5AJwNsF/DXG/NFnrvtX4PRwEsr5Nyth2pf3bw4X4MzY0A5yVFOwCDyUqVfsn1TPSaQ==
 
 sinon-chai@2.14.0:
   version "2.14.0"
