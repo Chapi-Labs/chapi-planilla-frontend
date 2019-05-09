@@ -54,10 +54,21 @@ const SELECT_PAYROLL_CONFIG = gql`
   }
 `
 
+const LIST_COMPANIES = gql`
+  query LIST_COMPANIES {
+    companiesList {
+      id
+      name
+      createdAt
+    }
+  }
+`;
+
 export {
   COMPANY_QUERY,
+  LIST_COMPANIES,
   LIST_EMPLOYEE,
-  SELECT_EMPLOYEE_LIST,
   SELECT_COMPANY_QUERY,
+  SELECT_EMPLOYEE_LIST,
   SELECT_PAYROLL_CONFIG,
 };

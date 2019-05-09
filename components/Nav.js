@@ -218,6 +218,11 @@ class Nav extends Component {
                             <a>Crear Nuevo</a>
                           </Link>
                         </li>
+                        <li>
+                          <Link href="/company_list" as="/company/list">
+                            <a>Listar</a>
+                          </Link>
+                        </li>
                       </ul>
                     </li>
                   </ul>

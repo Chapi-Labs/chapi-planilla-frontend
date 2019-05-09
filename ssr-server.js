@@ -17,6 +17,10 @@ app.prepare()
     const actualPage = "/employee_list";
     app.render(req, res, actualPage, {});
   });
+  server.get("/company/list", (req, res) => {
+    const actualPage = "/company_list";
+    app.render(req, res, actualPage, {});
+  });
   server.get('*', (req, res) => {
     return handle(req, res)
   })

@@ -75,6 +75,15 @@ const SIGNIN_MUTATION = gql`
   }
 `;
 
+const UPDATE_COMPANY_MUTATION = gql`
+  mutation UPDATE_COMPANY_MUTATION($name: String!) {
+    updateCompany(name: $name) {
+      id
+      name
+    }
+  }
+`;
+
 
 const CREATE_PAYROLL_MUTATION = gql`
   mutation CREATE_PAYROLL_MUTATION(
@@ -109,5 +118,6 @@ export {
   CREATE_PAYROLL_MUTATION,
   SIGNIN_MUTATION,
   SIGNUP_MUTATION,
+  UPDATE_COMPANY_MUTATION,
   UPDATE_EMPLOYEE_MUTATION,
 };

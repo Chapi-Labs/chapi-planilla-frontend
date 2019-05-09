@@ -16,6 +16,13 @@ class Login extends Component {
     password: '',
     email: ''
   };
+  constructor(props) {
+    super(props);
+    console.log(props);
+    /*Router.push({
+      pathname: "/index",
+    });*/
+  }
   saveToState = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
