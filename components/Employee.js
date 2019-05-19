@@ -17,10 +17,13 @@ class EmployeeList extends Component {
     first_name: "",
     last_name: "",
     email: "",
-    hire_date: new Date().toISOString().substring(0, new Date().toISOString().indexOf("T")),
+    hire_date: new Date()
+      .toISOString()
+      .substring(0, new Date().toISOString().indexOf("T")),
     legal_id: "",
     title: "",
     base_salary: 0.0,
+    spouse: false,
     response: {
       type: "",
       message: ""
@@ -36,17 +39,17 @@ class EmployeeList extends Component {
       value: ""
     },
     error: {},
-    loading: false,
+    loading: false
   };
 
   constructor(props) {
-    super(props)
+    super(props);
     this.validator = new SimpleReactValidator({
       messages: {
-        email: 'Este valor no es un correo',
-        required: 'Este valor es obligatorio',
+        email: "Este valor no es un correo",
+        required: "Este valor es obligatorio",
         // OR
-        default: 'El valor no es válido'  // will override all messages
+        default: "El valor no es válido" // will override all messages
       }
     });
   }
@@ -78,8 +81,7 @@ class EmployeeList extends Component {
 
   saveToState = (e, maskedvalue, floatvalue) => {
     this.setState({
-      [e.target.name]:
-        floatvalue == null ? e.target.value : floatvalue
+      [e.target.name]: floatvalue == null ? e.target.value : floatvalue
     });
   };
 
@@ -92,7 +94,7 @@ class EmployeeList extends Component {
         value: inputValue
       }
     }));
-  }
+  };
 
   handleChangeCompany = (inputValue, actionMeta) => {
     const { mutate } = this.props;
@@ -137,6 +139,7 @@ class EmployeeList extends Component {
     }
   };
   handleSubmit = async e => {
+     
     const { mutate } = this.props;
     e.preventDefault();
     if (!this.validator.allValid()) {
@@ -145,8 +148,8 @@ class EmployeeList extends Component {
       this.forceUpdate();
       return;
     }
-    this.setState({ loading: true });
-    
+    this.setState({ loading: true, error: {}});
+
     try {
       const r = await mutate({
         mutation: CREATE_EMPLOYEE_MUTATION,
@@ -215,7 +218,8 @@ class EmployeeList extends Component {
                       {this.validator.message(
                         "first_name_validation",
                         this.state.first_name,
-                        "required"
+                        "required",
+                        { className: "text-danger" }
                       )}
                     </FormGroup>
                   </Col>
@@ -232,7 +236,8 @@ class EmployeeList extends Component {
                       {this.validator.message(
                         "last_name_validation",
                         this.state.last_name,
-                        "required"
+                        "required",
+                        { className: "text-danger" }
                       )}
                     </FormGroup>
                   </Col>
@@ -289,8 +294,25 @@ class EmployeeList extends Component {
                   {this.validator.message(
                     "email_validation",
                     this.state.email,
-                    "required|email"
+                    "required|email",
+                    { className: "text-danger" }
                   )}
+                </FormGroup>
+                <FormGroup className="custom-control custom-checkbox">
+                  <Input
+                    type="checkbox"
+                    name="spouse"
+                    className="custom-control-input"
+                    value={this.state.spouse}
+                    onChange={this.saveToState}
+                    id="customCheck1"
+                  />
+                  <Label
+                    className="custom-control-label"
+                    htmlFor="customCheck1"
+                  >
+                    Cónygue dependiente
+                  </Label>
                 </FormGroup>
                 <hr />
                 <h4>Información Laboral</h4>
@@ -307,7 +329,8 @@ class EmployeeList extends Component {
                   {this.validator.message(
                     "company_validation",
                     companies.value,
-                    "required"
+                    "required",
+                    { className: "text-danger" }
                   )}
                 </FormGroup>
                 <FormGroup>
@@ -323,7 +346,8 @@ class EmployeeList extends Component {
                   {this.validator.message(
                     "salary_validation",
                     config.value,
-                    "required"
+                    "required",
+                    { className: "text-danger" }
                   )}
                 </FormGroup>
                 <FormGroup>
