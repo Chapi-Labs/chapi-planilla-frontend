@@ -1,15 +1,17 @@
 import React, { Component, Fragment } from "react";
 import { Mutation } from "react-apollo";
 import { Button, Form, FormGroup, Label, Input, Row, Col } from "reactstrap";
-import Creatable from "react-select/lib/Creatable";
+import Select from 'react-select';
 import { adopt } from "react-adopt";
-import { Popover, PopoverHeader, PopoverBody } from "reactstrap";
-import Employee from "./Employee";
 
 import Error from "./Error";
 import Loading from "./Loading";
-import { COMPANY_MUTATION, CREATE_PAYROLL_MUTATION } from "./graphql/mutations";
-import { SELECT_COMPANY_QUERY, SELECT_EMPLOYEE_LIST } from "./graphql/queries";
+import { CREATE_PAYROLL_MUTATION } from "./graphql/mutations";
+import {
+  SELECT_COMPANY_QUERY,
+  SELECT_EMPLOYEE_LIST,
+  SELECT_PAYROLL_CONFIG
+} from "./graphql/queries";
 
 const Composed = adopt({
   f1: ({ render }) => (
@@ -30,17 +32,26 @@ class PayrollForm extends Component {
       value: undefined
     },
     popoverOpen: false,
-    config_id: ""
+    config_id: "",
+    config: {
+      loading: false,
+      options: [],
+      value: ""
+    },
+    date: new Date()
+      .toISOString()
+      .substring(0, new Date().toISOString().indexOf("T"))
   };
   saveToState = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleChange = (inputValue) => {
+  handleChange = param => inputValue => {
+    console.log(param, inputValue)
     this.setState(previousState => ({
       ...previousState,
-      companies: {
-        ...previousState.companies,
+      [param]: {
+        ...previousState.param,
         value: inputValue
       }
     }));
@@ -54,10 +65,14 @@ class PayrollForm extends Component {
     const query2 = query({
       query: SELECT_EMPLOYEE_LIST
     });
-    const [{ data: dataR1 }, { data: dataR2 }] = await Promise.all([
-      query1,
-      query2
-    ]);
+    const query3 = query({
+      query: SELECT_PAYROLL_CONFIG
+    });
+    const [
+      { data: dataR1 },
+      { data: dataR2 },
+      { data: dataR3 }
+    ] = await Promise.all([query1, query2, query3]);
     this.setState(previousState => ({
       ...previousState,
       companies: {
@@ -67,6 +82,10 @@ class PayrollForm extends Component {
       employees: {
         ...previousState.employees,
         options: dataR2.employeesSelect
+      },
+      config: {
+        ...previousState.config,
+        options: dataR3.payrollConfigSelect
       }
     }));
   }
@@ -77,9 +96,8 @@ class PayrollForm extends Component {
     });
   };
 
-
   render() {
-    const { companies } = this.state;
+    const { companies, config } = this.state;
     return (
       <div className="row">
         <div className="col-12">
@@ -111,18 +129,49 @@ class PayrollForm extends Component {
                             onChange={this.saveToState}
                           />
                         </FormGroup>
+                        <Row>
+                          <Col>
+                            <FormGroup>
+                              <Label>Empresa</Label>
+                              <Select
+                                instanceId="select2"
+                                isDisabled={companies.loading}
+                                isLoading={companies.loading}
+                                onChange={this.handleChange("companies")}
+                                options={companies.options}
+                                value={companies.value}
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col>
+                            <FormGroup>
+                              <Label>Tipo Sueldo</Label>
+                              <Select
+                                instanceId="select2"
+                                isDisabled={config.loading}
+                                isLoading={config.loading}
+                                onChange={this.handleChange("config")}
+                                options={config.options}
+                                value={config.value}
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
                         <FormGroup>
-                          <Label>Empresa</Label>
-                          <Creatable
-                            instanceId="select2"
-                            isDisabled={companies.loading}
-                            isLoading={companies.loading}
-                            onChange={this.handleChange}
-                            options={companies.options}
-                            value={companies.value}
+                          <Label>Fecha de Cierre</Label>
+                          <Input
+                            type="date"
+                            name="date"
+                            className="form-control"
+                            placeholder="Date"
+                            value={this.state.date}
+                            onChange={this.saveToState}
                           />
                         </FormGroup>
-                        <Button className="waves-effect" type="submit">
+                        <Button
+                          className="waves-effect"
+                          type="submit"
+                        >
                           Guardar
                         </Button>
                       </Form>
