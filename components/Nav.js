@@ -3,11 +3,16 @@ import Link from 'next/link';
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  Nav,
+  UncontrolledDropdown,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem
-} from 'reactstrap';
+} from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Signout from './Signout';
@@ -24,50 +29,22 @@ Router.onRouteChangeError = () => {
   NProgress.done();
 };
 
-class Nav extends Component {
+class Navigation extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      dropdownOpen: false,
-      toggleMenu: true,
-      subMenuToggled: false
+      isOpen: false,
+      dropdownOpen: false
     };
   }
-  componentDidMount() {
-    if (window.innerWidth <= 960) {
-      this.setState(prevState => ({
-        toggleMenu: false
-      }));
-    }
+
+  toggle = (key) => {
+    this.setState({
+      [key]: !this.state[key]
+    });
   }
 
-  toggle(dropdownOpen) {
-    this.setState(prevState => ({
-      dropdownOpen: !prevState.dropdownOpen
-    }));
-  }
-
-  toggleMenu = e => {
-    this.setState(prevState => ({
-      toggleMenu: !prevState.toggleMenu
-    }));
-    if (this.state.toggleMenu === false) {
-      this.state.subMenuToggled = true;
-    }
-
-  };
-
-  toggleSubMenu = e => {
-    if (this.state.subMenuToggled === true) {
-      this.myInput.className = 'submenu megamenu open';
-    } else {
-      this.myInput.className = 'submenu megamenu';
-    }
-    this.setState(prevState => ({
-      subMenuToggled: !prevState.subMenuToggled
-    }));
-  };
 
   render() {
     return (
@@ -100,7 +77,7 @@ class Nav extends Component {
                   <div className="dropdown notification-list">
                     <Dropdown
                       isOpen={this.state.dropdownOpen}
-                      toggle={() => this.toggle(this.state.dropdownOpen)}
+                      toggle={() => this.toggle("dropdownOpen")}
                     >
                       <DropdownToggle
                         color=""
@@ -151,13 +128,7 @@ class Nav extends Component {
                         : "navbar-toggle nav-link"
                     }
                     onClick={this.toggleMenu}
-                  >
-                    <div id="ex" className="lines">
-                      <span />
-                      <span />
-                      <span />
-                    </div>
-                  </a>
+                  />
                 </li>
               </ul>
             </div>
@@ -166,96 +137,59 @@ class Nav extends Component {
         </div>
         <div className="navbar-custom">
           <div className="container-fluid">
-            <div
-              id="navigation"
-              style={{ display: this.state.toggleMenu ? "block" : "none" }}
-            >
-              <ul className="navigation-menu">
-                <li className="has-submenu" onClick={this.toggleSubMenu}>
-                  <Link href="#">
-                    <a id="ex">
-                      <i className="ti-archive" /> Trabajadores
-                    </a>
-                  </Link>
-                  <ul
-                    className="submenu megamenu"
-                    ref={input => {
-                      this.myInput = input;
-                    }}
-                  >
-                    <li>
-                      <ul>
-                        <li>
-                          <Link href="/employee">
-                            <a>Crear Nuevo</a>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link href="/employee_list" as="/employee/list">
-                            <a>Listar</a>
-                          </Link>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-                <li className="has-submenu" onClick={this.toggleSubMenu}>
-                  <Link href="#">
-                    <a id="ex">
-                      <i className="ti-archive" /> Empresas
-                    </a>
-                  </Link>
-                  <ul
-                    className="submenu megamenu"
-                    ref={input => {
-                      this.myInput = input;
-                    }}
-                  >
-                    <li>
-                      <ul>
-                        <li>
-                          <Link href="/new_company">
-                            <a>Crear Nuevo</a>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link href="/company_list" as="/company/list">
-                            <a>Listar</a>
-                          </Link>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-
-                <li
-                  className={
-                    this.state.Tab === "extra"
-                      ? "has-submenu active"
-                      : "has-submenu"
-                  }
-                >
-                  <Link href="#">
-                    <a id="ex">Nómina</a>
-                  </Link>
-                  <ul className="submenu megamenu">
-                    <li>
-                      <ul>
-                        <li
-                          className={
-                            this.state.SubTab === "pricing" ? "active" : ""
-                          }
-                        >
-                          <Link href="/new_payroll" as="/new/payroll">
-                            <a>Crear Nueva Nómina</a>
-                          </Link>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
+            <Navbar color="" light expand="md">
+              <NavbarToggler onClick={() => this.toggle("isOpen")} />
+              <Collapse isOpen={this.state.isOpen} navbar>
+                <Nav className="" navbar>
+                  <UncontrolledDropdown nav inNavbar>
+                    <DropdownToggle nav caret>
+                      Trabajadores
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem>
+                        <Link href="/employee">
+                          <a>Crear Nuevo</a>
+                        </Link>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <Link href="/employee_list" as="/employee/list">
+                          <a>Listar</a>
+                        </Link>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                  <UncontrolledDropdown nav inNavbar>
+                    <DropdownToggle nav caret>
+                      Empresas
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem>
+                        <Link href="/new_company">
+                          <a>Crear Nuevo</a>
+                        </Link>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <Link href="/company_list" as="/company/list">
+                          <a>Listar</a>
+                        </Link>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                  <UncontrolledDropdown nav inNavbar>
+                    <DropdownToggle nav caret>
+                      Nómina
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem>
+                        <Link href="/new_payroll" as="/new/payroll">
+                          <a>Crear Nueva Nómina</a>
+                        </Link>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                </Nav>
+              </Collapse>
+            </Navbar>
           </div>
         </div>
       </header>
@@ -263,4 +197,4 @@ class Nav extends Component {
   }
 }
 
-export default Nav;
+export default Navigation;

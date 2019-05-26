@@ -16,11 +16,6 @@ const Composed = adopt({
     <Mutation mutation={CREATE_PAYROLL_MUTATION}>
       {(mutation, result) => render({ mutation, result })}
     </Mutation>
-  ),
-  f3: ({ render }) => (
-    <Mutation mutation={COMPANY_MUTATION}>
-      {(mutation, result) => render({ mutation, result })}
-    </Mutation>
   )
 });
 
@@ -34,12 +29,6 @@ class PayrollForm extends Component {
       options: [],
       value: undefined
     },
-    employees: {
-      function: undefined,
-      loading: false,
-      options: [],
-      value: []
-    },
     popoverOpen: false,
     config_id: ""
   };
@@ -47,8 +36,7 @@ class PayrollForm extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleChange = (inputValue, actionMeta) => {
-    const { mutate } = this.props;
+  handleChange = (inputValue) => {
     this.setState(previousState => ({
       ...previousState,
       companies: {
@@ -56,50 +44,6 @@ class PayrollForm extends Component {
         value: inputValue
       }
     }));
-    if (actionMeta.action === "create-option") {
-      this.setState(previousState => ({
-        ...previousState,
-        companies: {
-          ...previousState.companies,
-          loading: true
-        }
-      }));
-      // create new company
-      const r = mutate({
-        mutation: COMPANY_MUTATION,
-        variables: { name: inputValue.value }
-      });
-      r.then(item => {
-        // add to state
-        this.setState(previousState => ({
-          ...previousState,
-          companies: {
-            ...previousState.companies,
-            loading: false,
-            options: [
-              ...previousState.companies.options,
-              {
-                id: item.data.createCompany.id,
-                value: item.data.createCompany.id,
-                label: item.data.createCompany.name
-              }
-            ]
-          }
-        }));
-      });
-    }
-  };
-
-  handleEmployeeChange = (inputValue, actionMeta) => {
-    if (actionMeta.action === "select-option") {
-      this.setState(previousState => ({
-        ...previousState,
-        employees: {
-          ...previousState.employees,
-          value: inputValue
-        }
-      }));
-    }
   };
 
   async componentDidMount() {
@@ -133,33 +77,9 @@ class PayrollForm extends Component {
     });
   };
 
-  addEmployee = item => {
-    this.setState(previousState => ({
-      popoverOpen: false,
-      employees: {
-        ...previousState.employees,
-        value: [
-          ...previousState.employees.value,
-          {
-            id: item.id,
-            value: item.id,
-            label: `${item.first_name} ${item.last_name}`
-          }
-        ],
-        options: [
-          ...previousState.employees.options,
-          {
-            id: item.id,
-            value: item.id,
-            label: `${item.first_name} ${item.last_name}`
-          }
-        ]
-      }
-    }));
-  };
 
   render() {
-    const { employees, companies } = this.state;
+    const { companies } = this.state;
     return (
       <div className="row">
         <div className="col-12">
@@ -201,48 +121,6 @@ class PayrollForm extends Component {
                             options={companies.options}
                             value={companies.value}
                           />
-                        </FormGroup>
-                        <FormGroup>
-                          <Label>Colaboradores</Label>
-                          <Row>
-                            <Col lg="10">
-                              <Creatable
-                                instanceId="select"
-                                isMulti
-                                isDisabled={employees.loading}
-                                isLoading={employees.loading}
-                                onChange={this.handleEmployeeChange}
-                                options={employees.options}
-                                value={employees.value}
-                              />
-                            </Col>
-                            <Col lg="2" md="3" sm="12 m-md-t-10">
-                              <Button
-                                type="button"
-                                id="PopoverClick"
-                                className="waves-effect"
-                                block
-                              >
-                                <Popover
-                                  isOpen={this.state.popoverOpen}
-                                  toggle={this.toggle}
-                                  placement="bottom"
-                                  target="PopoverClick"
-                                >
-                                  <PopoverHeader>
-                                    Crear Nuevo Colaborador
-                                  </PopoverHeader>
-                                  <PopoverBody>
-                                    <Employee
-                                      {...this.props}
-                                      addEmployee={this.addEmployee}
-                                    />
-                                  </PopoverBody>
-                                </Popover>{" "}
-                                Crear Nuevo
-                              </Button>
-                            </Col>
-                          </Row>
                         </FormGroup>
                         <Button className="waves-effect" type="submit">
                           Guardar

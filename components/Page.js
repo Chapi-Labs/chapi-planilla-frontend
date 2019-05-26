@@ -1,4 +1,4 @@
-import Head from './head';
+import Head from './Header';
 import SignIn from './SignIn';
 
 const Page = props => (

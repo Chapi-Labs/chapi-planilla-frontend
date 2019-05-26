@@ -7,6 +7,23 @@ body {
   padding-bottom: 65px;
 }
 
+.navbar-light {
+  .navbar-toggler {
+    background-color: white;
+  }
+  .navbar-nav {
+    .nav-link {
+      font-size: 15px;
+      color: white;
+      &:hover {
+        color: gray;
+      }
+    }
+    .show>.nav-link {
+      color: gray;
+    }
+  }
+}
 .wrapper {
   padding-top: 120px;
 }
@@ -503,6 +520,9 @@ body {
   }
   .container-fluid {
     width: auto !important;
+  }
+  .page-title-box {
+    padding: 55px 0px 15px 0px;
   }
 
   #topnav {
