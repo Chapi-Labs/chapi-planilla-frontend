@@ -118,9 +118,16 @@ const CREATE_PAYROLL_TYPE_MUTATION = gql`
   mutation CREATE_PAYROLL_TYPE_MUTATION(
     $name: String!
     $type: String!
+    $category: String
     $operator: String!
+    $value: Float
   ) {
-    createPayrollType(name: $name, type: $type, operator: $operator) {
+    createPayrollType(
+      name: $name,
+      category: $category
+      type: $type,
+      operator: $operator
+      value: $value) {
       id
       name
     }
