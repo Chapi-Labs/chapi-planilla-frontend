@@ -114,10 +114,24 @@ const SIGNUP_MUTATION = gql`
   }
 `;
 
+const CREATE_PAYROLL_TYPE_MUTATION = gql`
+  mutation CREATE_PAYROLL_TYPE_MUTATION(
+    $name: String!
+    $type: String!
+    $operator: String!
+  ) {
+    createPayrollType(name: $name, type: $type, operator: $operator) {
+      id
+      name
+    }
+  }
+`;
+
 export {
   COMPANY_MUTATION,
   CREATE_EMPLOYEE_MUTATION,
   CREATE_PAYROLL_MUTATION,
+  CREATE_PAYROLL_TYPE_MUTATION,
   SIGNIN_MUTATION,
   SIGNUP_MUTATION,
   UPDATE_COMPANY_MUTATION,

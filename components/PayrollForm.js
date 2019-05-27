@@ -40,14 +40,14 @@ class PayrollForm extends Component {
     },
     date: new Date()
       .toISOString()
-      .substring(0, new Date().toISOString().indexOf("T"))
+      .substring(0, new Date().toISOString().indexOf("T")),
+    page: 1
   };
   saveToState = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   handleChange = param => inputValue => {
-    console.log(param, inputValue)
     this.setState(previousState => ({
       ...previousState,
       [param]: {

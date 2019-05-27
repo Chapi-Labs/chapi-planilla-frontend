@@ -181,8 +181,13 @@ class Navigation extends Component {
                     </DropdownToggle>
                     <DropdownMenu right>
                       <DropdownItem>
-                        <Link href="/new_payroll" as="/new/payroll">
+                        <Link href="/payroll_new" as="/payroll/new">
                           <a>Crear Nueva Nómina</a>
+                        </Link>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <Link href="/payroll_type" as="/payroll/type">
+                          <a>Configuraciones</a>
                         </Link>
                       </DropdownItem>
                     </DropdownMenu>

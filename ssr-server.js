@@ -9,8 +9,8 @@ app.prepare()
 .then(() => {
   const server = express()
 
-  server.get('/new/payroll', (req, res) => {
-    const actualPage = '/new_payroll';
+  server.get('/payroll/new', (req, res) => {
+    const actualPage = '/payroll_new';
     app.render(req, res, actualPage, {});
   })
   server.get("/employee/list", (req, res) => {
@@ -21,6 +21,10 @@ app.prepare()
     const actualPage = "/company_list";
     app.render(req, res, actualPage, {});
   });
+   server.get("/payroll/type", (req, res) => {
+     const actualPage = "/payroll_type";
+     app.render(req, res, actualPage, {});
+   });
   server.get('*', (req, res) => {
     return handle(req, res)
   })
