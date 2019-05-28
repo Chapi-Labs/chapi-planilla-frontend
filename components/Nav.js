@@ -120,16 +120,16 @@ class Navigation extends Component {
                       Trabajadores
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem>
-                        <Link href="/employee">
-                          <a>Crear Nuevo</a>
-                        </Link>
-                      </DropdownItem>
-                      <DropdownItem>
-                        <Link href="/employee_list" as="/employee/list">
-                          <a>Listar</a>
-                        </Link>
-                      </DropdownItem>
+                       <Link href="/employee">
+                        <DropdownItem>
+                            <a>Crear Nuevo</a>
+                        </DropdownItem>
+                      </Link>
+                      <Link href="/employee_list" as="/employee/list">
+                        <DropdownItem>
+                            <a>Listar</a>
+                        </DropdownItem>
+                       </Link>
                     </DropdownMenu>
                   </UncontrolledDropdown>
                   <UncontrolledDropdown nav inNavbar>
@@ -137,16 +137,16 @@ class Navigation extends Component {
                       Empresas
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem>
-                        <Link href="/new_company">
-                          <a>Crear Nuevo</a>
-                        </Link>
-                      </DropdownItem>
-                      <DropdownItem>
-                        <Link href="/company_list" as="/company/list">
-                          <a>Listar</a>
-                        </Link>
-                      </DropdownItem>
+                      <Link href="/new_company">
+                        <DropdownItem>
+                            <a>Crear Nuevo</a>
+                        </DropdownItem>
+                      </Link>
+                      <Link href="/company_list" as="/company/list">
+                        <DropdownItem>
+                            <a>Listar</a>
+                        </DropdownItem>
+                      </Link>
                     </DropdownMenu>
                   </UncontrolledDropdown>
                   <UncontrolledDropdown nav inNavbar>
@@ -159,11 +159,11 @@ class Navigation extends Component {
                           <a>Crear Nueva Nómina</a>
                         </Link>
                       </DropdownItem>
-                      <DropdownItem>
-                        <Link href="/payroll_type" as="/payroll/type">
-                          <a>Configuraciones</a>
-                        </Link>
-                      </DropdownItem>
+                      <Link href="/payroll_type" as="/payroll/type">
+                        <DropdownItem>
+                            <a>Configuraciones</a>
+                        </DropdownItem>
+                      </Link>
                     </DropdownMenu>
                   </UncontrolledDropdown>
                 </Nav>

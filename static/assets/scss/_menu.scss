@@ -688,7 +688,12 @@ body {
   }
 }
 
-
+.dropdown-item {
+  color: rgba($dark,0.7);
+   &:hover {
+    color: $primary;
+  }
+}
 
 .footer {
   padding: 20px 30px;
