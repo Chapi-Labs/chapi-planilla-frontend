@@ -38,7 +38,10 @@ class PayrollForm extends Component {
       options: [],
       value: ""
     },
-    date: new Date()
+    date_start: new Date()
+      .toISOString()
+      .substring(0, new Date().toISOString().indexOf("T")),
+    date_end: new Date()
       .toISOString()
       .substring(0, new Date().toISOString().indexOf("T")),
     page: 1
@@ -137,7 +140,9 @@ class PayrollForm extends Component {
                                 instanceId="select2"
                                 isDisabled={companies.loading}
                                 isLoading={companies.loading}
-                                onChange={this.handleChange("companies")}
+                                onChange={this.handleChange(
+                                  "companies"
+                                )}
                                 options={companies.options}
                                 value={companies.value}
                               />
@@ -150,24 +155,43 @@ class PayrollForm extends Component {
                                 instanceId="select2"
                                 isDisabled={config.loading}
                                 isLoading={config.loading}
-                                onChange={this.handleChange("config")}
+                                onChange={this.handleChange(
+                                  "config"
+                                )}
                                 options={config.options}
                                 value={config.value}
                               />
                             </FormGroup>
                           </Col>
                         </Row>
-                        <FormGroup>
-                          <Label>Fecha de Cierre</Label>
-                          <Input
-                            type="date"
-                            name="date"
-                            className="form-control"
-                            placeholder="Date"
-                            value={this.state.date}
-                            onChange={this.saveToState}
-                          />
-                        </FormGroup>
+                        <Row>
+                          <Col>
+                            <FormGroup>
+                              <Label>Fecha de Inicio</Label>
+                              <Input
+                                type="date"
+                                name="date_start"
+                                className="form-control"
+                                placeholder="Date"
+                                value={this.state.date_start}
+                                onChange={this.saveToState}
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col>
+                            <FormGroup>
+                              <Label>Fecha de Cierre</Label>
+                              <Input
+                                type="date"
+                                name="date_end"
+                                className="form-control"
+                                placeholder="Date"
+                                value={this.state.date_end}
+                                onChange={this.saveToState}
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
                         <Button
                           className="waves-effect"
                           type="submit"
