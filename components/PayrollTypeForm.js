@@ -11,10 +11,12 @@ import { CREATE_PAYROLL_TYPE_MUTATION } from "./graphql/mutations";
 const types = [
   {
     label: 'Aumento',
+    key: 'increase',
     value: 'increase',
   },
   {
     label: 'Descuento',
+    key: 'decrease',
     value: 'decrease'
   }
 ];
@@ -22,10 +24,12 @@ const types = [
 const categories = [
   {
     label: 'Sobre Tiempo',
+    key: 'overtime',
     value: 'overtime'
   },
   {
     label: 'Ausencias y Tardanzas',
+    key: 'abscenses',
     value: 'abscenses'
   }
 ];
@@ -33,37 +37,34 @@ const categories = [
 const operators = [
   {
     label: 'Multiplicar',
+    key: '*',
     value: '*'
   },
   {
     label: 'Dividir',
+    key: '/',
     value: '/'
   },
   {
     label: 'Sumar',
+    key: '+',
     value: '+'
   },
   {
     label: 'Restar',
+    key: '-',
     value: '-'
   }
 ]
 
 class PayrollTypeForm extends Component {
   state = {
+    loading: false,
     name: "",
-    type: {
-      loading: "",
-      value: ""
-    },
-    operator: {
-      loading: "",
-      value: ""
-    },
-    category: {
-      loading: "",
-      value: ""
-    },
+    type: "",
+    operator: "",
+    category: "",
+    order: 0.0,
     value: 0.0
   };
   saveToState = e => {
@@ -71,12 +72,10 @@ class PayrollTypeForm extends Component {
   };
 
   handleChange = param => inputValue => {
+    console.log(param, inputValue, this.state);
     this.setState(previousState => ({
       ...previousState,
-      [param]: {
-        ...previousState.param,
-        value: inputValue
-      }
+      [param]: inputValue
     }));
   };
 
@@ -88,7 +87,14 @@ class PayrollTypeForm extends Component {
             <div className="card-body">
               <Mutation
                 mutation={CREATE_PAYROLL_TYPE_MUTATION}
-                variables={this.state}
+                variables={{
+                  name: this.state.name,
+                  category: this.state.category.value,
+                  operator: this.state.operator.value,
+                  order: this.state.order,
+                  type: this.state.type.value,
+                  value: this.state.value,
+                }}
               >
                 {(createPayrollType, { error, loading }) => (
                   <Fragment>
@@ -98,6 +104,7 @@ class PayrollTypeForm extends Component {
                       method="post"
                       onSubmit={async e => {
                         e.preventDefault();
+                        console.log(this.state)
                         await createPayrollType();
                       }}
                     >
@@ -121,12 +128,12 @@ class PayrollTypeForm extends Component {
                             <Select
                               isClearable
                               isSearchable
-                              isDisabled={this.state.category.loading}
-                              isLoading={this.state.category.loading}
+                              isDisabled={this.state.loading}
+                              isLoading={this.state.loading}
                               onChange={this.handleChange("category")}
                               defaultValue={categories[0]}
                               options={categories}
-                              value={this.state.category.value}
+                              value={this.state.category}
                             />
                           </FormGroup>
                         </Col>
@@ -138,12 +145,12 @@ class PayrollTypeForm extends Component {
                             <Select
                               isClearable
                               isSearchable
-                              isDisabled={this.state.type.loading}
-                              isLoading={this.state.type.loading}
+                              isDisabled={this.state.loading}
+                              isLoading={this.state.loading}
                               onChange={this.handleChange("type")}
                               defaultValue={types[0]}
                               options={types}
-                              value={this.state.type.value}
+                              value={this.state.type}
                             />
                           </FormGroup>
                         </Col>
@@ -153,12 +160,25 @@ class PayrollTypeForm extends Component {
                             <Select
                               isClearable
                               isSearchable
-                              isDisabled={this.state.operator.loading}
-                              isLoading={this.state.operator.loading}
+                              isDisabled={this.state.loading}
+                              isLoading={this.state.loading}
                               onChange={this.handleChange("operator")}
                               defaultValue={operators[0]}
                               options={operators}
-                              value={this.state.operator.value}
+                              value={this.state.operator}
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col>
+                          <FormGroup>
+                            <Label>Orden</Label>
+                            <CurrencyInput
+                              prefix=""
+                              name="order"
+                              className="form-control"
+                              placeholder="Orden"
+                              value={this.state.order}
+                              onChangeEvent={this.saveToState}
                             />
                           </FormGroup>
                         </Col>
