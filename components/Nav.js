@@ -87,32 +87,6 @@ class Navigation extends Component {
                       </DropdownToggle>
                       <DropdownMenu>
                         <DropdownItem>
-                          <i className="mdi mdi-account-circle m-r-5" />{" "}
-                          Profile
-                        </DropdownItem>
-                        <DropdownItem>
-                          <i className="mdi mdi-wallet m-r-5" /> My Wallet
-                        </DropdownItem>
-                        <DropdownItem>
-                          <Link href="/employee">
-                            <a>
-                              <span className="badge badge-success float-right">
-                                11
-                              </span>
-                              <i className="mdi mdi-settings m-r-5" />{" "}
-                              Settings
-                            </a>
-                          </Link>
-                        </DropdownItem>
-                        <DropdownItem>
-                          <Link href="/register">
-                            <a>
-                              <i className="mdi mdi-lock-open-outline m-r-5" />{" "}
-                              Lock screen
-                            </a>
-                          </Link>
-                        </DropdownItem>
-                        <DropdownItem>
                           <Signout />
                         </DropdownItem>
                       </DropdownMenu>

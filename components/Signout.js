@@ -18,7 +18,7 @@ const Signout = props => (
   >
     {signout => (
       <a href="#" onClick={signout}>
-        <i className="mdi mdi-power m-r-5"/>Logout
+        <i className="mdi mdi-power m-r-5"/>Cerrar Sesión
       </a>
     )}
   </Mutation>
