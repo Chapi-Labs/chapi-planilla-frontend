@@ -89,17 +89,21 @@ const UPDATE_COMPANY_MUTATION = gql`
 
 const CREATE_PAYROLL_MUTATION = gql`
   mutation CREATE_PAYROLL_MUTATION(
-    $first_name: String!
-    $last_name: String!
-    $email: String!
+    $name: String!
+    $company: String!
+    $frequency: String!
+    $date_start: String!
+    $date_end: String!
   ) {
-    createEmployee(
-      first_name: $first_name
-      last_name: $last_name
-      email: $email
+    createPayrollRegistry(
+      name: $name
+      company: $company
+      frequency: $frequency
+      date_start: $date_start
+      date_end: $date_end
     ) {
       id
-      email
+      name
     }
   }
 `;

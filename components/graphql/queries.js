@@ -50,6 +50,7 @@ const SELECT_PAYROLL_CONFIG = gql`
       id
       value
       label
+      payroll_frequency
     }
   }
 `
@@ -64,6 +65,16 @@ const LIST_COMPANIES = gql`
   }
 `;
 
+const SELECT_PAYROLL_TYPE = gql`
+  query SELECT_PAYROLL_TYPE {
+    payrollTypeSelect {
+      id
+      value
+      label
+    }
+  }
+`;
+
 export {
   COMPANY_QUERY,
   LIST_COMPANIES,
@@ -71,4 +82,5 @@ export {
   SELECT_COMPANY_QUERY,
   SELECT_EMPLOYEE_LIST,
   SELECT_PAYROLL_CONFIG,
+  SELECT_PAYROLL_TYPE,
 };

@@ -9,8 +9,7 @@ import Loading from "./Loading";
 import { CREATE_PAYROLL_MUTATION } from "./graphql/mutations";
 import {
   SELECT_COMPANY_QUERY,
-  SELECT_EMPLOYEE_LIST,
-  SELECT_PAYROLL_CONFIG
+  SELECT_PAYROLL_CONFIG,
 } from "./graphql/queries";
 
 const Composed = adopt({
@@ -33,7 +32,12 @@ class PayrollForm extends Component {
     },
     popoverOpen: false,
     config_id: "",
-    config: {
+    frequency: {
+      loading: false,
+      options: [],
+      value: []
+    },
+    frequency: {
       loading: false,
       options: [],
       value: ""
@@ -50,14 +54,53 @@ class PayrollForm extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  formatStringDate = date => {
+    return date
+      .toISOString()
+      .substring(0, new Date().toISOString().indexOf("T"));
+  };
+
+  changeDates = type => {
+    const date = new Date(),
+      y = date.getFullYear(),
+      m = date.getMonth();
+    let firstDay;
+    let lastDay;
+    if (type === "MONTHLY" || type === "HOURLY") {
+      firstDay = new Date(y, m, 1);
+      lastDay = new Date(y, m + 1, 0);
+      this.setState(previousState => ({
+        ...previousState,
+        date_start: this.formatStringDate(firstDay),
+        date_end: this.formatStringDate(lastDay)
+      }));
+    }
+    if (type === "BI_WEEKLY") {
+      const day = date.getDay();
+      if (day < 15) {
+        firstDay = new Date(y, m, 1);
+        lastDay = new Date(y, m, 15);
+      } else {
+        firstDay = new Date(y, m, 15);
+        lastDay = new Date(y, m + 1, 0);
+      }
+      this.setState(previousState => ({
+        ...previousState,
+        date_start: this.formatStringDate(firstDay),
+        date_end: this.formatStringDate(lastDay)
+      }));
+    }
+  };
+
   handleChange = param => inputValue => {
     this.setState(previousState => ({
       ...previousState,
       [param]: {
-        ...previousState.param,
+        ...previousState[param],
         value: inputValue
       }
     }));
+    if (param === "frequency") this.changeDates(inputValue.payroll_frequency);
   };
 
   async componentDidMount() {
@@ -66,29 +109,22 @@ class PayrollForm extends Component {
       query: SELECT_COMPANY_QUERY
     });
     const query2 = query({
-      query: SELECT_EMPLOYEE_LIST
-    });
-    const query3 = query({
       query: SELECT_PAYROLL_CONFIG
     });
-    const [
-      { data: dataR1 },
-      { data: dataR2 },
-      { data: dataR3 }
-    ] = await Promise.all([query1, query2, query3]);
+
+    const [{ data: dataR1 }, { data: dataR2 }] = await Promise.all([
+      query1,
+      query2
+    ]);
     this.setState(previousState => ({
       ...previousState,
       companies: {
         ...previousState.companies,
         options: dataR1.companies
       },
-      employees: {
-        ...previousState.employees,
-        options: dataR2.employeesSelect
-      },
-      config: {
-        ...previousState.config,
-        options: dataR3.payrollConfigSelect
+      frequency: {
+        ...previousState.type,
+        options: dataR2.payrollConfigSelect
       }
     }));
   }
@@ -100,7 +136,7 @@ class PayrollForm extends Component {
   };
 
   render() {
-    const { companies, config } = this.state;
+    const { companies, frequency } = this.state;
     return (
       <div className="row">
         <div className="col-12">
@@ -118,20 +154,18 @@ class PayrollForm extends Component {
                         method="post"
                         onSubmit={async e => {
                           e.preventDefault();
-                          await createPayroll();
+                          const { companies, frequency, name, date_start, date_end } = this.state;
+                          await createPayroll({
+                            variables: {
+                              name: name,
+                              company: companies.value.id,
+                              frequency: frequency.value.id,
+                              date_start,
+                              date_end
+                            }
+                          });
                         }}
                       >
-                        <FormGroup>
-                          <Label>Nombre</Label>
-                          <Input
-                            type="text"
-                            name="name"
-                            className="form-control"
-                            placeholder="Nombre"
-                            value={this.state.name}
-                            onChange={this.saveToState}
-                          />
-                        </FormGroup>
                         <Row>
                           <Col>
                             <FormGroup>
@@ -140,9 +174,7 @@ class PayrollForm extends Component {
                                 instanceId="select2"
                                 isDisabled={companies.loading}
                                 isLoading={companies.loading}
-                                onChange={this.handleChange(
-                                  "companies"
-                                )}
+                                onChange={this.handleChange("companies")}
                                 options={companies.options}
                                 value={companies.value}
                               />
@@ -153,13 +185,26 @@ class PayrollForm extends Component {
                               <Label>Tipo Sueldo</Label>
                               <Select
                                 instanceId="select2"
-                                isDisabled={config.loading}
-                                isLoading={config.loading}
-                                onChange={this.handleChange(
-                                  "config"
-                                )}
-                                options={config.options}
-                                value={config.value}
+                                isDisabled={frequency.loading}
+                                isLoading={frequency.loading}
+                                onChange={this.handleChange("frequency")}
+                                options={frequency.options}
+                                value={frequency.value}
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col>
+                            <FormGroup>
+                              <Label>Nombre</Label>
+                              <Input
+                                type="text"
+                                name="name"
+                                className="form-control"
+                                placeholder="Nombre"
+                                value={this.state.name}
+                                onChange={this.saveToState}
                               />
                             </FormGroup>
                           </Col>
@@ -192,10 +237,7 @@ class PayrollForm extends Component {
                             </FormGroup>
                           </Col>
                         </Row>
-                        <Button
-                          className="waves-effect"
-                          type="submit"
-                        >
+                        <Button className="waves-effect" type="submit">
                           Guardar
                         </Button>
                       </Form>
