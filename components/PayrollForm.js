@@ -3,9 +3,11 @@ import { Mutation } from "react-apollo";
 import { Button, Form, FormGroup, Label, Input, Row, Col } from "reactstrap";
 import Select from 'react-select';
 import { adopt } from "react-adopt";
-
+import Router from "next/router";
+import { withRouter } from 'next/router'
 import Error from "./Error";
 import Loading from "./Loading";
+import PayrollFormTable from "./PayrollFormTable";
 import { CREATE_PAYROLL_MUTATION } from "./graphql/mutations";
 import {
   SELECT_COMPANY_QUERY,
@@ -35,13 +37,9 @@ class PayrollForm extends Component {
     frequency: {
       loading: false,
       options: [],
-      value: []
-    },
-    frequency: {
-      loading: false,
-      options: [],
       value: ""
     },
+    loading: false,
     date_start: new Date()
       .toISOString()
       .substring(0, new Date().toISOString().indexOf("T")),
@@ -50,6 +48,7 @@ class PayrollForm extends Component {
       .substring(0, new Date().toISOString().indexOf("T")),
     page: 1
   };
+
   saveToState = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -129,14 +128,10 @@ class PayrollForm extends Component {
     }));
   }
 
-  toggle = () => {
-    this.setState({
-      popoverOpen: !this.state.popoverOpen
-    });
-  };
-
   render() {
-    const { companies, frequency } = this.state;
+    const { companies, frequency, page } = this.state;
+    const { router: { query }} = this.props;
+    if (page == 2 || query.page == 2) return <PayrollFormTable id={query.id}/>;
     return (
       <div className="row">
         <div className="col-12">
@@ -145,7 +140,7 @@ class PayrollForm extends Component {
               <Composed>
                 {({ f1 }) => {
                   const { mutation: createPayroll, result: resultPayroll } = f1;
-                  if (resultPayroll.loading) {
+                  if (resultPayroll.loading || this.state.loading) {
                     return <Loading loading={true} />;
                   }
                   return (
@@ -154,8 +149,15 @@ class PayrollForm extends Component {
                         method="post"
                         onSubmit={async e => {
                           e.preventDefault();
-                          const { companies, frequency, name, date_start, date_end } = this.state;
-                          await createPayroll({
+                          const {
+                            companies,
+                            frequency,
+                            name,
+                            date_start,
+                            date_end
+                          } = this.state;
+                          this.setState({ loading: true });
+                          const r = await createPayroll({
                             variables: {
                               name: name,
                               company: companies.value.id,
@@ -164,6 +166,19 @@ class PayrollForm extends Component {
                               date_end
                             }
                           });
+                          this.setState({
+                            loading: false
+                          });
+                          if (r.hasOwnProperty("data")) {
+                            Router.push({
+                              pathname: "/payroll_new",
+                              query: {
+                                page: 2,
+                                id: r.data.createPayrollRegistry.id
+                              }
+                            });
+                            this.setState({ page: 2 });
+                          }
                         }}
                       >
                         <Row>
@@ -253,4 +268,4 @@ class PayrollForm extends Component {
   }
 }
 
-export default PayrollForm;
+export default withRouter(PayrollForm);
