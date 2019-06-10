@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Row, Col, Input } from "reactstrap";
 import Creatable from "react-select/lib/Creatable";
-import CurrencyInput from 'react-currency-input';
+import CurrencyInput from "react-currency-input";
 import SimpleReactValidator from "simple-react-validator";
 
 import {

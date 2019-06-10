@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import Link from "next/link";
 import { Query, Mutation } from "react-apollo";
 import { MDBDataTable } from "mdbreact";
