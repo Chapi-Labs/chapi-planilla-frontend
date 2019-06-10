@@ -75,8 +75,27 @@ const SELECT_PAYROLL_TYPE = gql`
   }
 `;
 
+const FIND_EMPLOYEES = gql`
+  query FIND_EMPLOYEES (
+    $company_id: String!
+  ) {
+    findEmployee(company_id: $company_id) {
+      id
+      first_name
+      last_name
+      email
+      active
+      base_salary
+      payroll_frequency {
+        name
+      }
+    }
+  }
+`;
+
 export {
   COMPANY_QUERY,
+  FIND_EMPLOYEES,
   LIST_COMPANIES,
   LIST_EMPLOYEE,
   SELECT_COMPANY_QUERY,

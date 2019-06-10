@@ -131,7 +131,7 @@ class PayrollForm extends Component {
   render() {
     const { companies, frequency, page } = this.state;
     const { router: { query }} = this.props;
-    if (page == 2 || query.page == 2) return <PayrollFormTable id={query.id}/>;
+    if (page == 2 || query.page == 2) return <PayrollFormTable id={query.id} {...this.props}/>;
     return (
       <div className="row">
         <div className="col-12">

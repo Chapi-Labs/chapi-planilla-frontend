@@ -1,31 +1,30 @@
 import { FormGroup, Label, Input, Row, Col } from "reactstrap";
 import Editable from "react-x-editable";
+import { Component } from "react";
 
-const EmployeeInfo = props => (
-  <div>
-    <FormGroup>
+class PayrollCell extends Component {
+  buildEmployee = (name, salary, frequency) => (
+    <div>
       <Label>Nombre</Label>
-      <Editable
-        dataType="text"
-        mode="inline"
-        value={props.name}
-        bsBtnType="primary"
-        bsBtnClassNames="m-r-5"
-        emptyValueText={"N/A"}
-      />
-    </FormGroup>
-    <FormGroup>
+      <p>{name}</p>
       <Label>Salario Base</Label>
-      <Editable
-        dataType="text"
-        mode="inline"
-        value={props.salary}
-        bsBtnType="primary"
-        bsBtnClassNames="m-r-5"
-        emptyValueText={"N/A"}
-      />
-    </FormGroup>
-  </div>
-);
+      <p>{salary}</p>
+      <Label>Frecuencia</Label>
+      <p>{frequency}</p>
+    </div>
+  );
 
-export default EmployeeInfo;
+  render() {
+    const { type } = this.props;
+    let html = null;
+    if (type === "Employee") {
+      const name = `${this.props.first_name} ${this.props.last_name}`;
+      const salary = this.props.base_salary;
+      const frequency = this.props.payroll_frequency.name;
+      html = this.buildEmployee(name, salary, frequency);
+    }
+    return html;
+  }
+}
+
+export default PayrollCell;

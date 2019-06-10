@@ -6,7 +6,7 @@ import Editable from "react-x-editable";
 
 import PayrollCell from "./PayrollCell";
 import { UPDATE_EMPLOYEE_MUTATION } from "./graphql/mutations";
-import { LIST_EMPLOYEE } from "./graphql/queries";
+import { FIND_EMPLOYEES } from "./graphql/queries";
 
 const getNestedObject = (nestedObj, pathArr) => {
   return pathArr.reduce(
@@ -18,27 +18,34 @@ const data = {
   columns: [
     {
       label: "Colaborador",
-      field: "employee",
-      sort: "asc",
-      width: 150,
-      disabled: false
-    },
-    {
-      label: "Colaborador",
-      field: "employee2",
+      field: "employees",
       sort: "asc",
       width: 150,
       disabled: false
     }
   ],
   rows: [
-    {
-      employee: <PayrollCell name="Pablo" salary="2" />,
-      employe2: <PayrollCell name="Pablo" salary="2" />
-    }
   ]
 };
 class PayrollFormTable extends Component {
+  state = {
+    employees: []
+  }
+
+  async componentDidMount() {
+    const { query } = this.props;
+    const { data } = await query({
+      query: FIND_EMPLOYEES,
+      variables: {
+        company_id: this.props.id
+      }
+    });
+    console.log(data);
+    this.setState({ employees: data.findEmployee });
+    
+    // find employees from company.
+  }
+
   handleSubmit(target) {
     target.props.updateFunction({
       variables: {
@@ -47,29 +54,16 @@ class PayrollFormTable extends Component {
       }
     });
   }
-  transformData = apiData => {
+  transformData = employees => {
     const rows = [];
-    for (const row of apiData.employees) {
+    for (const row of employees) {
       let newRow = {};
       for (const key in data.columns) {
         const column = data.columns[key];
+        console.log(row, column);
         newRow = {
           ...newRow,
-          [column.field]: (
-            <Editable
-              dataType="text"
-              mode="inline"
-              value={getNestedObject(row, column.field.split("."))}
-              id={row.id}
-              column={column.field}
-              disabled={column.disabled}
-              updateFunction={updateEmployee}
-              bsBtnType="primary"
-              bsBtnClassNames="m-r-5"
-              emptyValueText={"N/A"}
-              handleSubmit={this.handleSubmit}
-            />
-          )
+          [column.field]: <PayrollCell {...row} type="Employee"/>
         };
       }
       rows.push(newRow);
@@ -79,13 +73,14 @@ class PayrollFormTable extends Component {
   };
 
   render() {
+    const { employees } = this.state;
     return (
       <div className="row">
         <div className="col-12">
           <div className="card">
             <div className="card-body">
               <h4 className="mt-0 header-title">Listado de Colaboradores</h4>
-              <MDBDataTable bordered hover data={data} />
+              <MDBDataTable bordered hover data={this.transformData(employees)} />
             </div>
           </div>
         </div>
