@@ -72,7 +72,6 @@ class PayrollTypeForm extends Component {
   };
 
   handleChange = param => inputValue => {
-    console.log(param, inputValue, this.state);
     this.setState(previousState => ({
       ...previousState,
       [param]: inputValue
@@ -104,7 +103,6 @@ class PayrollTypeForm extends Component {
                       method="post"
                       onSubmit={async e => {
                         e.preventDefault();
-                        console.log(this.state)
                         await createPayrollType();
                       }}
                     >

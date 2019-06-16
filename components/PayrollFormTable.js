@@ -19,6 +19,7 @@ const data = {
     {
       label: "Colaborador",
       field: "employees",
+      type: "Employee",
       sort: "asc",
       width: 150,
       disabled: false
@@ -30,20 +31,21 @@ const data = {
 class PayrollFormTable extends Component {
   state = {
     employees: []
-  }
+  };
 
-  async componentDidMount() {
-    const { query } = this.props;
-    const { data } = await query({
-      query: FIND_EMPLOYEES,
-      variables: {
-        company_id: this.props.id
-      }
-    });
-    console.log(data);
-    this.setState({ employees: data.findEmployee });
-    
-    // find employees from company.
+
+  async componentWillReceiveProps(props) {
+    const { query } = props;
+    if (props.id != null) {
+      const { data } = await query({
+        query: FIND_EMPLOYEES,
+        variables: {
+          company_id: props.id
+        }
+      });
+      console.log(data);
+      this.setState({ employees: data.findEmployee });
+    }
   }
 
   handleSubmit(target) {
@@ -63,7 +65,7 @@ class PayrollFormTable extends Component {
         console.log(row, column);
         newRow = {
           ...newRow,
-          [column.field]: <PayrollCell {...row} type="Employee"/>
+          [column.field]: <PayrollCell {...row} type={column.type} />
         };
       }
       rows.push(newRow);
@@ -80,7 +82,11 @@ class PayrollFormTable extends Component {
           <div className="card">
             <div className="card-body">
               <h4 className="mt-0 header-title">Listado de Colaboradores</h4>
-              <MDBDataTable bordered hover data={this.transformData(employees)} />
+              <MDBDataTable
+                bordered
+                hover
+                data={this.transformData(employees)}
+              />
             </div>
           </div>
         </div>

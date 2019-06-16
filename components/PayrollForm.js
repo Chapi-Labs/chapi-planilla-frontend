@@ -174,7 +174,7 @@ class PayrollForm extends Component {
                               pathname: "/payroll_new",
                               query: {
                                 page: 2,
-                                id: r.data.createPayrollRegistry.id
+                                id: companies.value.id
                               }
                             });
                             this.setState({ page: 2 });

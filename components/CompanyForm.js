@@ -57,4 +57,3 @@ class CompanyForm extends Component {
 }
 
 export default CompanyForm;
-export { COMPANY_MUTATION };
