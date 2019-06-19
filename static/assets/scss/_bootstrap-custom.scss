@@ -176,3 +176,15 @@ dt {
 .editable-click {
   border-bottom: dashed 1px $primary;
 }
+.personal-data {
+  padding-left: 5px;
+  >p {
+    margin-bottom: 0px;
+    line-height: 1.5
+  }
+  >span {
+    color: gray;
+    font-size: 12px;
+  }
+  margin-bottom: 2px;
+}

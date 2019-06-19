@@ -4,9 +4,9 @@ import { Query, Mutation } from "react-apollo";
 import { MDBDataTable } from "mdbreact";
 import Editable from "react-x-editable";
 
-import PayrollCell from "./PayrollCell";
+import PayrollRow from "./PayrollRow";
 import { UPDATE_EMPLOYEE_MUTATION } from "./graphql/mutations";
-import { FIND_EMPLOYEES } from "./graphql/queries";
+import { FIND_EMPLOYEES, LIST_FIELDS } from "./graphql/queries";
 
 const getNestedObject = (nestedObj, pathArr) => {
   return pathArr.reduce(
@@ -23,16 +23,27 @@ const data = {
       sort: "asc",
       width: 150,
       disabled: false
+    },
+    {
+      label: "Tiempo Extra",
+      field: "over_time",
+      type: "OvertimeInput",
+      sort: "asc",
+      width: 150,
+      disabled: false
     }
   ],
-  rows: [
-  ]
+  rows: []
 };
 class PayrollFormTable extends Component {
   state = {
-    employees: []
+    employees: [],
+    overtimeFields: []
   };
 
+  handleInputChange = d => {
+    console.log(d);
+  };
 
   async componentWillReceiveProps(props) {
     const { query } = props;
@@ -43,8 +54,14 @@ class PayrollFormTable extends Component {
           company_id: props.id
         }
       });
-      console.log(data);
       this.setState({ employees: data.findEmployee });
+      const { data: fields } = await query({
+        query: LIST_FIELDS,
+        variables: {
+          category: "overtime"
+        }
+      });
+      this.setState({ overtimeFields: fields.payrollTypes });
     }
   }
 
@@ -65,7 +82,14 @@ class PayrollFormTable extends Component {
         console.log(row, column);
         newRow = {
           ...newRow,
-          [column.field]: <PayrollCell {...row} type={column.type} />
+          [column.field]: (
+            <PayrollRow
+              {...row}
+              type={column.type}
+              fields={this.state.overtimeFields}
+              handleInputChange={this.handleInputChange}
+            />
+          )
         };
       }
       rows.push(newRow);

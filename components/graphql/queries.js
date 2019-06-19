@@ -50,7 +50,7 @@ const SELECT_PAYROLL_CONFIG = gql`
       id
       value
       label
-      payroll_frequency
+      frequency
     }
   }
 `
@@ -83,12 +83,30 @@ const FIND_EMPLOYEES = gql`
       id
       first_name
       last_name
+      legal_id
       email
       active
       base_salary
-      payroll_frequency {
+      payroll {
         name
+        frequency
       }
+    }
+  }
+`;
+
+const LIST_FIELDS = gql`
+  query LIST_FIELDS(
+    $category: String!
+  ) {
+    payrollTypes(category: $category) {
+      id
+      name
+      type
+      operator
+      category
+      value
+      order
     }
   }
 `;
@@ -98,6 +116,7 @@ export {
   FIND_EMPLOYEES,
   LIST_COMPANIES,
   LIST_EMPLOYEE,
+  LIST_FIELDS,
   SELECT_COMPANY_QUERY,
   SELECT_EMPLOYEE_LIST,
   SELECT_PAYROLL_CONFIG,
