@@ -96,9 +96,7 @@ const FIND_EMPLOYEES = gql`
 `;
 
 const LIST_FIELDS = gql`
-  query LIST_FIELDS(
-    $category: String!
-  ) {
+  query LIST_FIELDS($category: String!) {
     payrollTypes(category: $category) {
       id
       name
@@ -106,6 +104,7 @@ const LIST_FIELDS = gql`
       operator
       category
       value
+      operational_value
       order
     }
   }

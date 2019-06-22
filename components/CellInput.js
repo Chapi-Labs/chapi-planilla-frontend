@@ -7,7 +7,12 @@ class CellInput extends Component {
 
 
   handleSubmit = (input) => {
-    console.log(input);
+    if (input.hasOwnProperty("props")) {
+      input.props.updateFunction({
+        value: input.newValue,
+        id: input.props.id
+      });
+    }
   }
 
   buildInputField = (field) => {
@@ -17,7 +22,7 @@ class CellInput extends Component {
         <Editable
           dataType="text"
           mode="inline"
-          value={0.0}
+          value={field.value}
           id={field.id}
           column={field.category}
           handleSubmit={this.handleSubmit}

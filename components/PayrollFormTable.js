@@ -41,8 +41,18 @@ class PayrollFormTable extends Component {
     overtimeFields: []
   };
 
-  handleInputChange = d => {
-    console.log(d);
+  handleInputChange = ({ value, id}) => {
+    const newFields = this.state.overtimeFields.map((field) => {
+      if (field.id === id) {
+        field.value = parseFloat(value);
+      }
+      return field;
+    });
+    this.setState(previousState => ({
+      ...previousState,
+      overtimeFields: newFields,
+    }));
+
   };
 
   async componentWillReceiveProps(props) {
