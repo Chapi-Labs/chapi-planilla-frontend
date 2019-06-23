@@ -87,6 +87,7 @@ const FIND_EMPLOYEES = gql`
       email
       active
       base_salary
+      hourly_rate
       payroll {
         name
         frequency
@@ -105,6 +106,7 @@ const LIST_FIELDS = gql`
       category
       value
       operational_value
+      calculated_value
       order
     }
   }

@@ -14,10 +14,11 @@ class PayrollRow extends Component {
     const { type } = this.props;
     let html = null;
     if (type === "Employee") {
-      const name = `${this.props.first_name} ${this.props.last_name}`;
-      const salary = this.props.base_salary;
-      const frequency_name = this.props.payroll.name;
-      const frequency = this.props.payroll.frequency;
+      const { employee } = this.props;
+      const name = `${employee.first_name} ${employee.last_name}`;
+      const salary = employee.base_salary;
+      const frequency_name = employee.payroll.name;
+      const frequency = employee.payroll.frequency;
       let salaryRate = salary;
       if (frequency === "MONTHLY") {
         salaryRate = (salary * 12) / 52 / 48;
@@ -26,7 +27,7 @@ class PayrollRow extends Component {
       } else if (frequency === "BI_WEEKLY") {
         salaryRate = (salary * 12 * 2) / 52 / 48;
       }
-      const legal_id = this.props.legal_id;
+      const legal_id = employee.legal_id;
       html = 
       <CellEmployee
         name={name}
@@ -39,8 +40,19 @@ class PayrollRow extends Component {
     if (type === "OvertimeInput") {
       html = (
         <CellInput
+          calculated={false}
+          employee={this.props.employee}
           fields={this.props.fields}
           handleInputChange={this.props.handleInputChange}
+        />
+      );
+    }
+    if (type === "OverTimeCalculated") {
+      html = (
+        <CellInput
+          calculated={true}
+          employee={this.props.employee}
+          fields={this.props.fields}
         />
       );
     }

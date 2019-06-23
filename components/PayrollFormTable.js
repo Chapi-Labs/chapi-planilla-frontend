@@ -25,9 +25,17 @@ const data = {
       disabled: false
     },
     {
-      label: "Tiempo Extra",
+      label: "Tiempo Extra (horas)",
       field: "over_time",
       type: "OvertimeInput",
+      sort: "asc",
+      width: 150,
+      disabled: false
+    },
+    {
+      label: "Tiempo Extra ($)",
+      field: "over_time_calculated",
+      type: "OverTimeCalculated",
       sort: "asc",
       width: 150,
       disabled: false
@@ -38,15 +46,22 @@ const data = {
 class PayrollFormTable extends Component {
   state = {
     employees: [],
-    overtimeFields: []
+    overtimeFields: [],
   };
 
-  handleInputChange = ({ value, id}) => {
-    const newFields = this.state.overtimeFields.map((field) => {
-      if (field.id === id) {
-        field.value = parseFloat(value);
+  handleInputChange = ({ value, id, employee}) => {
+    const newFields = this.state.overtimeFields.map((user) => {
+      let fields = user.fields;
+      if (user.user_id === employee.id) {
+        fields = fields.map(f => {
+          if (f.id === id) {
+            f.value = parseFloat(value);
+          }
+          return f;
+        });
       }
-      return field;
+      user.fields = fields;
+      return user;
     });
     this.setState(previousState => ({
       ...previousState,
@@ -71,7 +86,13 @@ class PayrollFormTable extends Component {
           category: "overtime"
         }
       });
-      this.setState({ overtimeFields: fields.payrollTypes });
+      const overtimeFields = data.findEmployee.map((e) => {
+        return { user_id: e.id, fields: [...fields.payrollTypes] }
+      });
+    
+      this.setState({
+        overtimeFields: overtimeFields,
+      });
     }
   }
 
@@ -85,22 +106,26 @@ class PayrollFormTable extends Component {
   }
   transformData = employees => {
     const rows = [];
+    const { overtimeFields } = this.state;
     for (const row of employees) {
       let newRow = {};
       for (const key in data.columns) {
         const column = data.columns[key];
         console.log(row, column);
-        newRow = {
-          ...newRow,
-          [column.field]: (
-            <PayrollRow
-              {...row}
-              type={column.type}
-              fields={this.state.overtimeFields}
-              handleInputChange={this.handleInputChange}
-            />
-          )
-        };
+        const overtimeUserFields = overtimeFields.find(e => e.user_id === row.id);
+        if (overtimeUserFields != null) {
+          newRow = {
+            ...newRow,
+            [column.field]: (
+              <PayrollRow
+                employee={row}
+                type={column.type}
+                fields={overtimeUserFields.fields}
+                handleInputChange={this.handleInputChange}
+              />
+            )
+          };
+        }
       }
       rows.push(newRow);
     }
