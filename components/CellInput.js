@@ -35,6 +35,7 @@ class CellInput extends Component {
           id={field.id}
           employee={employee}
           column={field.category}
+          disabled={calculated}
           handleSubmit={this.handleSubmit}
           updateFunction={this.props.handleInputChange}
           placeholder="Ingresar Valor"
