@@ -21,7 +21,7 @@ const data = {
       field: "employees",
       type: "Employee",
       sort: "asc",
-      width: 150,
+      width: 50,
       disabled: false
     },
     {
@@ -29,7 +29,7 @@ const data = {
       field: "over_time",
       type: "OvertimeInput",
       sort: "asc",
-      width: 150,
+      width: 50,
       disabled: false
     },
     {
@@ -37,7 +37,55 @@ const data = {
       field: "over_time_calculated",
       type: "OverTimeCalculated",
       sort: "asc",
-      width: 150,
+      width: 50,
+      disabled: false
+    },
+    {
+      label: "Total Tiempo Extra",
+      field: "total_over_time",
+      type: "TotalOverTime",
+      sort: "asc",
+      width: 50,
+      disabled: false
+    },
+    {
+      label: "Ausencias y Tardanzas",
+      field: "late_time",
+      type: "TotalLateTime",
+      sort: "asc",
+      width: 50,
+      disabled: false
+    },
+    {
+      label: "Total Salario",
+      field: "total_salary",
+      type: "TotalSalary",
+      sort: "asc",
+      width: 50,
+      disabled: false
+    },
+    {
+      label: "Seguros",
+      field: "insurances",
+      type: "SocialAndEducativeInsurance",
+      sort: "asc",
+      width: 50,
+      disabled: false
+    },
+    {
+      label: "ISR",
+      field: "isr_tax",
+      type: "ISRTax",
+      sort: "asc",
+      width: 50,
+      disabled: false
+    },
+    {
+      label: "Salario Neto",
+      field: "net_salary",
+      type: "NetSalary",
+      sort: "asc",
+      width: 50,
       disabled: false
     }
   ],
@@ -46,33 +94,34 @@ const data = {
 class PayrollFormTable extends Component {
   state = {
     employees: [],
-    overtimeFields: [],
+    overtimeFields: []
   };
 
-  handleInputChange = ({ value, id, employee}) => {
-    const newFields = this.state.overtimeFields.map((user) => {
+  handleExtraTimeInputChange = ({ value, id, employee }) => {
+    const newFields = this.state.overtimeFields.map(user => {
       let fields = user.fields;
       if (user.user_id === employee.id) {
+        let total = 0;
         fields = fields.map(f => {
           if (f.id === id) {
             f.value = parseFloat(value);
           }
+          const calculated_value =
+            f.value * f.operational_value * employee.hourly_rate;
+          total += calculated_value;
           return f;
         });
+        user.total_overtime = Math.round(total * 100) / 100;
       }
       user.fields = fields;
       return user;
     });
-    this.setState(previousState => ({
-      ...previousState,
-      overtimeFields: newFields,
-    }));
-
+    this.setState({ overtimeFields: newFields });
   };
 
   async componentWillReceiveProps(props) {
     const { query } = props;
-    if (props.id != null) {
+    if (props.id != null && this.state.employees.length === 0) {
       const { data } = await query({
         query: FIND_EMPLOYEES,
         variables: {
@@ -86,12 +135,19 @@ class PayrollFormTable extends Component {
           category: "overtime"
         }
       });
-      const overtimeFields = data.findEmployee.map((e) => {
-        return { user_id: e.id, fields: [...fields.payrollTypes] }
+      const overtimeFields = data.findEmployee.map(e => {
+        return {
+          user_id: e.id,
+          fields: [...fields.payrollTypes],
+          total_overtime: 0.0,
+          total_salary: 0.0,
+          net_salary: 0.0,
+          absences: 0.0
+        };
       });
-    
+
       this.setState({
-        overtimeFields: overtimeFields,
+        overtimeFields: overtimeFields
       });
     }
   }
@@ -112,16 +168,24 @@ class PayrollFormTable extends Component {
       for (const key in data.columns) {
         const column = data.columns[key];
         console.log(row, column);
-        const overtimeUserFields = overtimeFields.find(e => e.user_id === row.id);
+        const overtimeUserFields = overtimeFields.find(
+          e => e.user_id === row.id
+        );
+        console.log(overtimeUserFields);
         if (overtimeUserFields != null) {
           newRow = {
             ...newRow,
             [column.field]: (
               <PayrollRow
                 employee={row}
+                value={`${row.first_name} ${row.last_name}`}
                 type={column.type}
                 fields={overtimeUserFields.fields}
-                handleInputChange={this.handleInputChange}
+                absences={overtimeUserFields.absences}
+                total_overtime={overtimeUserFields.total_overtime}
+                total_salary={overtimeUserFields.total_salary}
+                net_salary={overtimeUserFields.net_salary}
+                handleInputChange={this.handleExtraTimeInputChange}
               />
             )
           };
