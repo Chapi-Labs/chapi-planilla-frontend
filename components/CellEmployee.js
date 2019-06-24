@@ -1,7 +1,8 @@
 import { Label } from "reactstrap";
+
 const CellEmployee = props => (
   <div>
-    <Label>Empleado</Label>
+    <Label>Nombre</Label>
     <div className="personal-data">
       <p>{props.name}</p>
       <span>{props.legal_id}</span>
