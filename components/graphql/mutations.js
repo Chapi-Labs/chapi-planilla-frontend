@@ -28,9 +28,11 @@ const UPDATE_EMPLOYEE_MUTATION = gql`
 const COMPANY_MUTATION = gql`
   mutation COMPANY_MUTATION(
     $name: String!
+    $professional_risk: Float
   ) {
     createCompany(
       name: $name
+      professional_risk: $professional_risk
     ) {
       id
       name
