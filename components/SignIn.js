@@ -5,7 +5,7 @@ import Loading from '../components/Loading';
 const SignIn = props => (
     <Query query={CURRENT_USER_QUERY}>
     {({ data, loading }) => {
-      if (loading) return <Loading loading={loading}/>
+      if (loading) return <Login loading={loading}/>;
       if (data == null || !data.me) {
         return <Login/>
       }

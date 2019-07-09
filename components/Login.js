@@ -14,14 +14,13 @@ class Login extends Component {
   state = {
     name: '',
     password: '',
-    email: ''
+    email: '',
+    loading: false
   };
   constructor(props) {
     super(props);
-    console.log(props);
-    /*Router.push({
-      pathname: "/index",
-    });*/
+    const { loading = false } = props;
+    this.setState({ loading });
   }
   saveToState = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -50,7 +49,7 @@ class Login extends Component {
               refetchQueries={[{ query: CURRENT_USER_QUERY }]}
             >
               {(login, { error, loading }) => {
-                if (loading) return <Loading loading={loading}/>
+                if (loading || this.state.loading) return <Loading loading={loading}/>
                 return (
                   <Form
                     method="post"
