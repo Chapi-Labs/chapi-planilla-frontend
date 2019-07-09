@@ -17,11 +17,12 @@ class Login extends Component {
     email: '',
     loading: false
   };
-  constructor(props) {
-    super(props);
-    const { loading = false } = props;
+  
+  componentDidMount() {
+    const { loading = false } = this.props;
     this.setState({ loading });
   }
+
   saveToState = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
