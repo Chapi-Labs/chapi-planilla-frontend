@@ -112,6 +112,7 @@ class PayrollFormTable extends Component {
           return f;
         });
         user.total_overtime = Math.round(total * 100) / 100;
+        user.total_salary = employee.base_salary + user.total_overtime;
       }
       user.fields = fields;
       return user;

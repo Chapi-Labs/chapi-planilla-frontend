@@ -1,20 +1,48 @@
 import { Label } from "reactstrap";
+import Editable from "react-x-editable";
+import { Component } from "react";
 
-const CellEmployee = props => (
-  <div>
-    <Label>Nombre</Label>
-    <div className="personal-data">
-      <p>{props.name}</p>
-      <span>{props.legal_id}</span>
-    </div>
-    <Label>Salario Base</Label>
-    <div className="personal-data">
-      <p>
-        {props.salary} {props.frequency}
-      </p>
-      <span>{props.salary_rate} por hora</span>
-    </div>
-  </div>
-);
+class CellEmployee extends Component {
+  handleSubmit = input => {
+    if (input.hasOwnProperty("props")) {
+      input.props.updateFunction({
+        value: input.newValue,
+        id: input.props.id,
+        employee: input.props.employee
+      });
+    }
+  };
+  render() {
+    const { id, name, legal_id, salary, frequency, salary_rate } = this.props;
+    return (
+      <div>
+        <Label>Nombre</Label>
+        <div className="personal-data">
+          <p>{name}</p>
+          <span>{legal_id}</span>
+        </div>
+        <Label>Salario Base</Label>
+        <div className="personal-data">
+          <Editable
+            dataType="text"
+            mode="inline"
+            value={0.0}
+            id={id}
+            handleSubmit={this.handleSubmit}
+            updateFunction={this.props.handleInputChange}
+            placeholder="Ingresar Horas Trabajadas"
+            bsBtnType="primary"
+            bsBtnClassNames="m-r-5"
+            emptyValueText={0.0}
+          />
+          <p>
+            {salary} {frequency}
+          </p>
+          <span>{salary_rate} por hora</span>
+        </div>
+      </div>
+    );
+  }
+};
 
 export default CellEmployee;

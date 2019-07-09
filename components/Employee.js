@@ -38,6 +38,7 @@ class EmployeeList extends Component {
       options: [],
       value: ""
     },
+    weekly_hours: 40,
     error: {},
     loading: false
   };
@@ -139,7 +140,6 @@ class EmployeeList extends Component {
     }
   };
   handleSubmit = async e => {
-     
     const { mutate } = this.props;
     e.preventDefault();
     if (!this.validator.allValid()) {
@@ -333,23 +333,39 @@ class EmployeeList extends Component {
                     { className: "text-danger" }
                   )}
                 </FormGroup>
-                <FormGroup>
-                  <Label>Tipo Sueldo</Label>
-                  <Creatable
-                    instanceId="select2"
-                    isDisabled={config.loading}
-                    isLoading={config.loading}
-                    onChange={this.handleChangeSalary}
-                    options={config.options}
-                    value={config.value}
-                  />
-                  {this.validator.message(
-                    "salary_validation",
-                    config.value,
-                    "required",
-                    { className: "text-danger" }
-                  )}
-                </FormGroup>
+                <Row>
+                  <Col xs="6">
+                    <FormGroup>
+                      <Label>Tipo Sueldo</Label>
+                      <Creatable
+                        instanceId="select2"
+                        isDisabled={config.loading}
+                        isLoading={config.loading}
+                        onChange={this.handleChangeSalary}
+                        options={config.options}
+                        value={config.value}
+                      />
+                      {this.validator.message(
+                        "salary_validation",
+                        config.value,
+                        "required",
+                        { className: "text-danger" }
+                      )}
+                    </FormGroup>
+                  </Col>
+                  <Col xs="6">
+                    <FormGroup>
+                      <Label>Horas Semanales</Label>
+                      <Input
+                        type="number"
+                        name="weekly_hours"
+                        className="form-control"
+                        value={this.state.weekly_hours}
+                        onChange={this.saveToState}
+                      />
+                    </FormGroup>
+                  </Col>
+                </Row>
                 <FormGroup>
                   <Label>Sueldo</Label>
                   <CurrencyInput

@@ -50,6 +50,7 @@ const CREATE_EMPLOYEE_MUTATION = gql`
     $base_salary: Float
     $company_id: String
     $frequency: String
+    $weekly_hours: Int
     $spouse: Boolean
   ) {
     createEmployee(
@@ -61,6 +62,7 @@ const CREATE_EMPLOYEE_MUTATION = gql`
       company: $company_id
       hire_date: $hire_date
       spouse: $spouse
+      weekly_hours: $weekly_hours
       payroll_frequency: $frequency
     ) {
       id
