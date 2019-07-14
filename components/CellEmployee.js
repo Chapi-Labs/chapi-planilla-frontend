@@ -9,7 +9,6 @@ class CellEmployee extends Component {
       input.props.updateFunction({
         value: input.newValue,
         id: input.props.id,
-        employee: input.props.employee
       });
     }
   };
@@ -47,7 +46,6 @@ class CellEmployee extends Component {
           <p>
             {round(effective_hours * salary_rate)} {frequency}
           </p>
-          <span>{round(salary_rate)} por hora</span>
         </div>
       </div>
     );

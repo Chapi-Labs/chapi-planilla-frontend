@@ -97,6 +97,16 @@ class PayrollFormTable extends Component {
     overtimeFields: []
   };
 
+  handleEffectiveHoursChange = ({ value, id}) => {
+    const employees = this.state.employees.map(e => {
+      if (e.id == id) {
+        e.effective_hours = value;
+      }
+      return e;
+    });
+    this.setState({ employees });
+  }
+
   handleExtraTimeInputChange = ({ value, id, employee }) => {
     const newFields = this.state.overtimeFields.map(user => {
       let fields = user.fields;
@@ -129,7 +139,11 @@ class PayrollFormTable extends Component {
           company_id: props.id
         }
       });
-      this.setState({ employees: data.findEmployee });
+      const employees = data.findEmployee.map(e => ({
+        ...e,
+        effective_hours: 173.333
+      }));
+      this.setState({ employees });
       const { data: fields } = await query({
         query: LIST_FIELDS,
         variables: {
@@ -172,7 +186,6 @@ class PayrollFormTable extends Component {
         const overtimeUserFields = overtimeFields.find(
           e => e.user_id === row.id
         );
-        console.log(overtimeUserFields);
         if (overtimeUserFields != null) {
           newRow = {
             ...newRow,
@@ -187,6 +200,7 @@ class PayrollFormTable extends Component {
                 total_salary={overtimeUserFields.total_salary}
                 net_salary={overtimeUserFields.net_salary}
                 handleInputChange={this.handleExtraTimeInputChange}
+                handleEffectiveHoursChange={this.handleEffectiveHoursChange}
               />
             )
           };

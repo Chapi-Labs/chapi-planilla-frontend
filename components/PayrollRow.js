@@ -24,20 +24,23 @@ class PayrollRow extends Component {
         const name = `${employee.first_name} ${employee.last_name}`;
         const salary = employee.base_salary;
         const frequency_name = employee.payroll.name;
-        const frequency = employee.payroll.frequency;
         const id = employee.id;
         console.log(employee)
         const salaryRate = employee.payroll.hourly_rate;
         const legal_id = employee.legal_id;
-        html = 
-        <CellEmployee
-          id={id}
-          name={name}
-          legal_id={legal_id}
-          salary={salary}
-          salary_rate={salaryRate}
-          frequency={frequency_name}
-        />;
+        const effective_hours = employee.effective_hours;
+        html = (
+          <CellEmployee
+            id={id}
+            name={name}
+            legal_id={legal_id}
+            salary={salary}
+            salary_rate={salaryRate}
+            frequency={frequency_name}
+            effective_hours={effective_hours}
+            handleInputChange={this.props.handleEffectiveHoursChange}
+          />
+        );
       }
     }
     if (type === "OvertimeInput") {
