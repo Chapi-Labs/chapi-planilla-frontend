@@ -52,7 +52,6 @@ const data = {
 };
 class CompanyList extends Component {
   handleSubmit(target) {
-    console.log(target);
     target.props.updateFunction({
       variables: {
         id: target.props.id,

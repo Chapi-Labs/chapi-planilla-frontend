@@ -173,6 +173,19 @@ class EmployeeList extends Component {
             first_name: "",
             last_name: "",
             email: "",
+            legal_id: "",
+            base_salary: 0.0,
+            spouse: false,
+            companies: {
+              loading: false,
+              options: [],
+              value: ""
+            },
+            config: {
+              loading: false,
+              options: [],
+              value: ""
+            },
             response: {
               message: "",
               type: ""
