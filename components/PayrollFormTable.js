@@ -205,8 +205,11 @@ class PayrollFormTable extends Component {
         <div className="col-12">
           <div className="card">
             <div className="card-body">
-              <h4 className="mt-0 header-title">Listado de Colaboradores</h4>
+              <h4 className="mt-0 header-title">
+                Listado de Colaboradores
+              </h4>
               <MDBDataTable
+                responsive
                 bordered
                 hover
                 data={this.transformData(employees)}

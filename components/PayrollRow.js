@@ -4,10 +4,6 @@ import { Component } from "react";
 import CellEmployee from './CellEmployee';
 import CellInput from './CellInput';
 
-function round(number) {
-  return Math.round(number * 100) / 100;
-}
-
 class PayrollRow extends Component {
 
   simpleField = (label, value) => (
@@ -39,7 +35,7 @@ class PayrollRow extends Component {
           name={name}
           legal_id={legal_id}
           salary={salary}
-          salary_rate={round(salaryRate)}
+          salary_rate={salaryRate}
           frequency={frequency_name}
         />;
       }

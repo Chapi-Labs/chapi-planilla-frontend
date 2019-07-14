@@ -2,6 +2,7 @@ import { Label } from "reactstrap";
 import Editable from "react-x-editable";
 import { Component } from "react";
 
+import { round } from "../lib/withData";
 class CellEmployee extends Component {
   handleSubmit = input => {
     if (input.hasOwnProperty("props")) {
@@ -13,7 +14,7 @@ class CellEmployee extends Component {
     }
   };
   render() {
-    const { id, name, legal_id, salary, frequency, salary_rate } = this.props;
+    const { id, name, legal_id, salary, frequency, salary_rate, effective_hours = 173.333 } = this.props;
     return (
       <div>
         <Label>Nombre</Label>
@@ -23,10 +24,17 @@ class CellEmployee extends Component {
         </div>
         <Label>Salario Base</Label>
         <div className="personal-data">
+          <p>
+            {salary} {frequency}
+          </p>
+          <span>{round(salary_rate)} por hora</span>
+        </div>
+        <Label>Salario Efectivo</Label>
+        <div className="personal-data">
           <Editable
             dataType="text"
             mode="inline"
-            value={0.0}
+            value={effective_hours}
             id={id}
             handleSubmit={this.handleSubmit}
             updateFunction={this.props.handleInputChange}
@@ -35,10 +43,11 @@ class CellEmployee extends Component {
             bsBtnClassNames="m-r-5"
             emptyValueText={0.0}
           />
+          <span>Horas Efectivas</span>
           <p>
-            {salary} {frequency}
+            {round(effective_hours * salary_rate)} {frequency}
           </p>
-          <span>{salary_rate} por hora</span>
+          <span>{round(salary_rate)} por hora</span>
         </div>
       </div>
     );

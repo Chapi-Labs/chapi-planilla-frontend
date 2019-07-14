@@ -186,5 +186,9 @@ dt {
     color: gray;
     font-size: 12px;
   }
+  >.editable-container {
+    display: inline-block;
+    margin-right: 2px;
+  }
   margin-bottom: 2px;
 }
