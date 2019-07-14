@@ -33,7 +33,6 @@ class CompanyForm extends Component {
                       onSubmit={async e => {
                         e.preventDefault();
                         const r = await createCompany();
-                        console.log(r);
                         if (r.hasOwnProperty("data")) {
                           this.setState({
                             response: {
@@ -66,7 +65,7 @@ class CompanyForm extends Component {
                         />
                       </FormGroup>
                       <FormGroup>
-                        <Label>Riesgo Profesional</Label>
+                        <Label>Riesgo Profesional (%)</Label>
                         <CurrencyInput
                           name="professional_risk"
                           className="form-control"

@@ -34,6 +34,13 @@ const data = {
       disabled: false
     },
     {
+      label: "Riesgo Profesional",
+      field: "professional_risk",
+      sort: "asc",
+      width: 50,
+      disabled: false
+    },
+    {
       label: "Fecha Creación",
       field: "createdAt",
       sort: "asc",
@@ -45,6 +52,7 @@ const data = {
 };
 class CompanyList extends Component {
   handleSubmit(target) {
+    console.log(target);
     target.props.updateFunction({
       variables: {
         id: target.props.id,
@@ -63,13 +71,13 @@ class CompanyList extends Component {
           [column.field]: (
             <Mutation
               mutation={UPDATE_COMPANY_MUTATION}
-              value={getNestedObject(row, column.field.split("."))}
+              value={row[column.field]}
             >
               {(updateEmployee, { loading, error }) => (
                 <Editable
                   dataType="text"
                   mode="inline"
-                  value={getNestedObject(row, column.field.split("."))}
+                  value={row[column.field]}
                   id={row.id}
                   column={column.field}
                   disabled={column.disabled}

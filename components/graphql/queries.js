@@ -61,6 +61,7 @@ const LIST_COMPANIES = gql`
     companiesList {
       id
       name
+      professional_risk
       createdAt
     }
   }

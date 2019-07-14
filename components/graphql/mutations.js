@@ -85,9 +85,10 @@ const SIGNIN_MUTATION = gql`
 `;
 
 const UPDATE_COMPANY_MUTATION = gql`
-  mutation UPDATE_COMPANY_MUTATION($name: String!) {
-    updateCompany(name: $name) {
+  mutation UPDATE_COMPANY_MUTATION($id: String!, $name: String, $professional_risk: Float) {
+    updateCompany(id: $id, name: $name, professional_risk: $professional_risk) {
       id
+      professional_risk
       name
     }
   }
