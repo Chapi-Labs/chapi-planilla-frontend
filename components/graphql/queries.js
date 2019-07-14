@@ -93,6 +93,8 @@ const FIND_EMPLOYEES = gql`
       payroll {
         name
         frequency
+        weekly_hours
+        hourly_rate
       }
     }
   }

@@ -99,7 +99,7 @@ class PayrollForm extends Component {
         value: inputValue
       }
     }));
-    if (param === "frequency") this.changeDates(inputValue.payroll_frequency);
+    if (param === "frequency") this.changeDates(inputValue.frequency);
   };
 
   async componentDidMount() {

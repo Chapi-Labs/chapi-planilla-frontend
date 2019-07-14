@@ -31,14 +31,7 @@ class PayrollRow extends Component {
         const frequency = employee.payroll.frequency;
         const id = employee.id;
         console.log(employee)
-        let salaryRate = salary;
-        if (frequency === "MONTHLY") {
-          salaryRate = (salary * 12) / 52 / 48;
-        } else if (frequency === "WEEKLY") {
-          salaryRate = (salary * 12 * 4) / 52 / 48;
-        } else if (frequency === "BI_WEEKLY") {
-          salaryRate = (salary * 12 * 2) / 52 / 48;
-        }
+        const salaryRate = employee.payroll.hourly_rate;
         const legal_id = employee.legal_id;
         html = 
         <CellEmployee
