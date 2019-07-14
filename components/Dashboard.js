@@ -32,7 +32,7 @@ class Dashboard extends Component {
                       />
                     </div>
                     <h5 className="font-16 text-uppercase mt-0 text-white-50">
-                      Orders
+                      Empresas
                     </h5>
                     <h4 className="font-500">
                       1,685 <i className="mdi mdi-arrow-up text-success ml-2" />
@@ -64,7 +64,7 @@ class Dashboard extends Component {
                       />
                     </div>
                     <h5 className="font-16 text-uppercase mt-0 text-white-50">
-                      Revenue
+                      Colaboradores
                     </h5>
                     <h4 className="font-500">
                       52,368{" "}
@@ -97,7 +97,7 @@ class Dashboard extends Component {
                       />
                     </div>
                     <h5 className="font-16 text-uppercase mt-0 text-white-50">
-                      Average Price
+                      Mes Actual
                     </h5>
                     <h4 className="font-500">
                       15.8 <i className="mdi mdi-arrow-up text-success ml-2" />

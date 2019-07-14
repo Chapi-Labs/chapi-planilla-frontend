@@ -50,7 +50,6 @@ class Login extends Component {
               refetchQueries={[{ query: CURRENT_USER_QUERY }]}
             >
               {(login, { error, loading }) => {
-                if (loading || this.state.loading) return <Loading loading={loading}/>
                 return (
                   <Form
                     method="post"
@@ -61,6 +60,7 @@ class Login extends Component {
                       this.setState({ name: '', email: '', password: '' });
                     }}
                   >
+                    <Loading loading={loading || this.state.loading}/>
                     <Error error={error} />
                     <FormGroup>
                       <Label htmlFor="username">Email</Label>
