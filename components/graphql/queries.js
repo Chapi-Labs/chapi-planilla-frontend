@@ -7,6 +7,7 @@ const LIST_EMPLOYEE = gql`
       id
       first_name
       last_name
+      legal_id
       email
       base_salary
       company {

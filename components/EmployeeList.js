@@ -31,6 +31,13 @@ const data = {
       disabled: false
     },
     {
+      label: "Identificación",
+      field: "legal_id",
+      sort: "asc",
+      width: 50,
+      disabled: false
+    },
+    {
       label: "Email",
       field: "email",
       sort: "asc",
