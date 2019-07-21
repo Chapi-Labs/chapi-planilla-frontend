@@ -53,7 +53,7 @@ const data = {
       field: "late_time",
       type: "TotalLateTime",
       sort: "asc",
-      width: 50,
+      width: 20,
       disabled: false
     },
     {

@@ -120,16 +120,16 @@ class Navigation extends Component {
                       Trabajadores
                     </DropdownToggle>
                     <DropdownMenu right>
-                       <Link href="/employee">
+                      <Link href="/employee">
                         <DropdownItem>
-                            <a>Crear Nuevo</a>
+                          <a>Crear Nuevo</a>
                         </DropdownItem>
                       </Link>
                       <Link href="/employee_list" as="/employee/list">
                         <DropdownItem>
-                            <a>Listar</a>
+                          <a>Listar</a>
                         </DropdownItem>
-                       </Link>
+                      </Link>
                     </DropdownMenu>
                   </UncontrolledDropdown>
                   <UncontrolledDropdown nav inNavbar>
@@ -139,12 +139,12 @@ class Navigation extends Component {
                     <DropdownMenu right>
                       <Link href="/new_company">
                         <DropdownItem>
-                            <a>Crear Nuevo</a>
+                          <a>Crear Nuevo</a>
                         </DropdownItem>
                       </Link>
                       <Link href="/company_list" as="/company/list">
                         <DropdownItem>
-                            <a>Listar</a>
+                          <a>Listar</a>
                         </DropdownItem>
                       </Link>
                     </DropdownMenu>
@@ -159,9 +159,14 @@ class Navigation extends Component {
                           <a>Crear Nueva Nómina</a>
                         </Link>
                       </DropdownItem>
+                      <DropdownItem>
+                        <Link href="/payroll_list" as="/payroll/list">
+                          <a>Listar Nóminas</a>
+                        </Link>
+                      </DropdownItem>
                       <Link href="/payroll_type" as="/payroll/type">
                         <DropdownItem>
-                            <a>Configuraciones</a>
+                          <a>Configuraciones</a>
                         </DropdownItem>
                       </Link>
                     </DropdownMenu>

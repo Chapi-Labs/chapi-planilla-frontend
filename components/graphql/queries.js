@@ -116,12 +116,31 @@ const LIST_FIELDS = gql`
   }
 `;
 
+const LIST_PAYROLLS = gql`
+  query LIST_PAYROLLS($company_id: String) {
+    findPayrollRegistry(company_id: $company_id) {
+      id
+      name
+      config {
+        name
+        frequency
+      }
+      company {
+        name
+      }
+      date_start
+      date_end
+    }
+  }
+`;
+
 export {
   COMPANY_QUERY,
   FIND_EMPLOYEES,
   LIST_COMPANIES,
   LIST_EMPLOYEE,
   LIST_FIELDS,
+  LIST_PAYROLLS,
   SELECT_COMPANY_QUERY,
   SELECT_EMPLOYEE_LIST,
   SELECT_PAYROLL_CONFIG,

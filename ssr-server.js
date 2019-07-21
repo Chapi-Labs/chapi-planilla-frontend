@@ -21,10 +21,14 @@ app.prepare()
     const actualPage = "/company_list";
     app.render(req, res, actualPage, {});
   });
-   server.get("/payroll/type", (req, res) => {
-     const actualPage = "/payroll_type";
+  server.get("/payroll/type", (req, res) => {
+    const actualPage = "/payroll_type";
+    app.render(req, res, actualPage, {});
+  });
+  server.get("/payroll/list", (req, res) => {
+     const actualPage = "/payroll_list";
      app.render(req, res, actualPage, {});
-   });
+  });
   server.get('*', (req, res) => {
     return handle(req, res)
   })
