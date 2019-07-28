@@ -1,6 +1,7 @@
 import React from "react";
 import Nav from "../components/Nav";
 import Dashboard from "../components/Dashboard";
+import SignIn from "../components/SignIn";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../static/assets/scss/style.scss";
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -12,8 +13,10 @@ library.add(fas, far)
 
 const Home = () => (
   <div>
-    <Nav />
-    <Dashboard />
+    <SignIn>
+      <Nav />
+      <Dashboard />
+    </SignIn>
   </div>
 );
 

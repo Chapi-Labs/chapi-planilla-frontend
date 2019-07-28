@@ -101,7 +101,7 @@ class Login extends Component {
 
                     <FormGroup>
                       <div className="col-12 m-t-20">
-                        <Link href="/">
+                        <Link href="/reset">
                           <a>
                             <FontAwesomeIcon icon="lock" className="m-r-5"/>Recuperar
                             contraseña

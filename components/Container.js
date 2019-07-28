@@ -1,10 +1,16 @@
-import { Fragment } from 'react';
 import Link from "next/link";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Nav from '../components/Nav';
+import SignIn from '../components/SignIn';
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { far } from "@fortawesome/free-regular-svg-icons";
+
+// Add all icons to the library so you can use it in your page
+library.add(fas, far);
 
 const Container = ({ title, subtitle, children }) => (
-  <Fragment>
+  <SignIn>
     <Nav />
     <div className="wrapper">
       <div className="container-fluid">
@@ -29,7 +35,7 @@ const Container = ({ title, subtitle, children }) => (
         {children}
       </div>
     </div>
-  </Fragment>
+  </SignIn>
 );
 
 export default Container;

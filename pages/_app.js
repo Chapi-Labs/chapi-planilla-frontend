@@ -1,5 +1,4 @@
 import App, { Container } from 'next/app';
-import Home from './index';
 import Page from '../components/Page';
 import { ApolloProvider, ApolloConsumer } from 'react-apollo';
 import withData from '../lib/withData';
@@ -21,13 +20,11 @@ class MyApp extends App {
     return (
       <Container>
         <ApolloProvider client={apollo}>
-          <Page>
             <ApolloConsumer>
               {client => (
                 <Component {...pageProps} mutate={client.mutate} query={client.query}/>
               )}
             </ApolloConsumer>
-          </Page>
         </ApolloProvider>
       </Container>
     );
