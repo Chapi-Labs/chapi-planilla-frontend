@@ -1,7 +1,6 @@
 import React from "react";
-import Nav from "../components/Nav";
+import Container from "../components/Container";
 import Dashboard from "../components/Dashboard";
-import SignIn from "../components/SignIn";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../static/assets/scss/style.scss";
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -12,12 +11,9 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 library.add(fas, far)
 
 const Home = () => (
-  <div>
-    <SignIn>
-      <Nav />
-      <Dashboard />
-    </SignIn>
-  </div>
+  <Container title="Dashboard" subtitle="Dashboard">
+    <Dashboard />
+  </Container>
 );
 
 export default Home;
