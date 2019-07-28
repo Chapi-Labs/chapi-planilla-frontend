@@ -62,9 +62,11 @@ class Login extends Component {
                   >
                     <Loading loading={loading}/>
                     <Error error={error} />
+                    <fieldset disabled={loading} aria-busy={loading}>
                     <FormGroup>
                       <Label htmlFor="username">Email</Label>
                       <Input
+                        id="username"
                         type="email"
                         name="email"
                         className="form-control"
@@ -78,6 +80,7 @@ class Login extends Component {
                     <FormGroup>
                       <Label htmlFor="userpassword">Contraseña</Label>
                       <Input
+                        id="userpassword"
                         type="password"
                         name="password"
                         className="form-control"
@@ -98,7 +101,7 @@ class Login extends Component {
                         </Button>
                       </div>
                     </FormGroup>
-
+                    </fieldset>
                     <FormGroup>
                       <div className="col-12 m-t-20">
                         <Link href="/reset">
