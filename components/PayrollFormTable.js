@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Query, Mutation } from "react-apollo";
 import { MDBDataTable } from "mdbreact";
 import Editable from "react-x-editable";
+import { Button } from "reactstrap";
 
 import PayrollRow from "./PayrollRow";
 import { UPDATE_EMPLOYEE_MUTATION } from "./graphql/mutations";
@@ -107,6 +108,18 @@ class PayrollFormTable extends Component {
     this.setState({ employees });
   }
 
+  handleAbsencesChange = ({ value, id }) => {
+    console.log(value, id);
+    const overtimeFields = this.state.overtimeFields.map(user => {
+      console.log(user);
+      if (user.user_id == id) {
+        user.absences = parseFloat(value);
+      }
+      return user;
+    });
+    this.setState({ overtimeFields });
+  }
+
   handleExtraTimeInputChange = ({ value, id, employee }) => {
     const newFields = this.state.overtimeFields.map(user => {
       let fields = user.fields;
@@ -182,10 +195,10 @@ class PayrollFormTable extends Component {
       let newRow = {};
       for (const key in data.columns) {
         const column = data.columns[key];
-        console.log(row, column);
         const overtimeUserFields = overtimeFields.find(
           e => e.user_id === row.id
         );
+        console.log(row, column, overtimeFields);
         if (overtimeUserFields != null) {
           newRow = {
             ...newRow,
@@ -201,6 +214,7 @@ class PayrollFormTable extends Component {
                 net_salary={overtimeUserFields.net_salary}
                 handleInputChange={this.handleExtraTimeInputChange}
                 handleEffectiveHoursChange={this.handleEffectiveHoursChange}
+                handleAbsencesChange={this.handleAbsencesChange}
               />
             )
           };
@@ -218,6 +232,11 @@ class PayrollFormTable extends Component {
       <div className="row">
         <div className="col-12">
           <div className="card">
+            <div class="col-sm-6 offset-md-6">
+              <div class="float-right d-none d-md-block">
+                <Button className="btn btn-primary waves-effect m-t-10">Guardar Cambios</Button>
+              </div>
+            </div>
             <div className="card-body">
               <h4 className="mt-0 header-title">
                 Listado de Colaboradores

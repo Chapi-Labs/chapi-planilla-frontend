@@ -3,6 +3,7 @@ import { Label } from "reactstrap";
 import { Component } from "react";
 import CellEmployee from './CellEmployee';
 import CellInput from './CellInput';
+import AbscenceInput from './AbsenceInput';
 
 class PayrollRow extends Component {
 
@@ -66,7 +67,18 @@ class PayrollRow extends Component {
       html = this.simpleField("Sobre Tiempo", this.props.total_overtime);
     }
     if (type === "TotalLateTime") {
-      html = this.simpleField("Ausencias y Tardanzas", this.props.absences);
+      const field = {
+        name: "Ausencias y Tardanzas",
+        value: this.props.absences
+      }
+      console.log(field);
+      html = (
+        <AbscenceInput
+          field={field}
+          employee={this.props.employee}
+          handleInputChange={this.props.handleAbsencesChange}
+        />
+      );
     }
      if (type === "TotalSalary") {
       html = this.simpleField("Total", this.props.total_salary);

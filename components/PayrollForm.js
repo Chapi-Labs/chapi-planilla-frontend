@@ -9,6 +9,8 @@ import Error from "./Error";
 import Loading from "./Loading";
 import PayrollFormTable from "./PayrollFormTable";
 import { CREATE_PAYROLL_MUTATION } from "./graphql/mutations";
+
+
 import {
   SELECT_COMPANY_QUERY,
   SELECT_PAYROLL_CONFIG,
@@ -131,6 +133,7 @@ class PayrollForm extends Component {
   render() {
     const { companies, frequency, page } = this.state;
     const { router: { query }} = this.props;
+    console.log(page, query);
     if (page == 2 || query.page == 2) return <PayrollFormTable id={query.id} {...this.props}/>;
     return (
       <div className="row">

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Query } from "react-apollo";
 import { MDBDataTable } from "mdbreact";
-
+import { Button } from 'reactstrap';
+import Router from "next/router";
 import { LIST_PAYROLLS } from "./graphql/queries";
 
 const getNestedObject = (nestedObj, pathArr) => {
@@ -39,6 +40,13 @@ const data = {
       sort: "asc",
       width: 50,
       disabled: false
+    },
+    {
+      label: "Acción",
+      field: "",
+      sort: "",
+      width: 50,
+      disabled: false
     }
   ],
   rows: []
@@ -51,13 +59,35 @@ class PayrollList extends Component {
       let newRow = {};
       for (const key in data.columns) {
         const column = data.columns[key];
-        newRow = {
-          ...newRow,
-          [column.field]: (
-            <p>{getNestedObject(row, column.field.split("."))}</p>
-          )
-        };
+        if (column.field !== "") {
+          newRow = {
+            ...newRow,
+            [column.field]: (
+              <p>{getNestedObject(row, column.field.split("."))}</p>
+            )
+          };
+        }
       }
+      newRow = {
+        ...newRow,
+        button: (
+          <Button
+            className="btn btn-primary waves-effect waves-light"
+            type="submit"
+            onClick={() => {
+              Router.push({
+                pathname: "/payroll_new",
+                query: {
+                  page: 2,
+                  id: row.id
+                }
+              });
+            }}
+          >
+            Ver
+          </Button>
+        )
+      };
       rows.push(newRow);
     }
 
