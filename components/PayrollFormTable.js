@@ -114,6 +114,7 @@ class PayrollFormTable extends Component {
       console.log(user);
       if (user.user_id == id) {
         user.absences = parseFloat(value);
+        user.total_salary = user.total_salary - user.absences;
       }
       return user;
     });
@@ -168,7 +169,7 @@ class PayrollFormTable extends Component {
           user_id: e.id,
           fields: [...fields.payrollTypes],
           total_overtime: 0.0,
-          total_salary: 0.0,
+          total_salary: e.base_salary,
           net_salary: 0.0,
           absences: 0.0
         };
