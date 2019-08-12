@@ -1,12 +1,11 @@
-
 import { Label } from "reactstrap";
 import { Component } from "react";
-import CellEmployee from './CellEmployee';
-import CellInput from './CellInput';
-import AbscenceInput from './AbsenceInput';
+import CellEmployee from "./CellEmployee";
+import CellInput from "./CellInput";
+import CellAbsence from "./CellAbsence";
+import CellInsurance from "./CellInsurance";
 
 class PayrollRow extends Component {
-
   simpleField = (label, value) => (
     <div>
       <Label>{label}</Label>
@@ -26,7 +25,7 @@ class PayrollRow extends Component {
         const salary = employee.base_salary;
         const frequency_name = employee.payroll.name;
         const id = employee.id;
-        console.log(employee)
+        console.log(employee);
         const salaryRate = employee.payroll.hourly_rate;
         const legal_id = employee.legal_id;
         const effective_hours = employee.effective_hours;
@@ -64,26 +63,33 @@ class PayrollRow extends Component {
       );
     }
     if (type === "TotalOverTime") {
-      html = this.simpleField("Sobre Tiempo", this.props.total_overtime);
+      html = this.simpleField("Sobre Tiempo", `$ ${this.props.total_overtime}`);
     }
     if (type === "TotalLateTime") {
       const field = {
         name: "Ausencias y Tardanzas",
         value: this.props.absences
-      }
-      console.log(field);
+      };
       html = (
-        <AbscenceInput
+        <CellAbsence
           field={field}
           employee={this.props.employee}
           handleInputChange={this.props.handleAbsencesChange}
         />
       );
     }
-     if (type === "TotalSalary") {
-      html = this.simpleField("Total", this.props.total_salary);
+    if (type === "TotalSalary") {
+      html = this.simpleField("Total", `$ ${this.props.total_salary}`);
     }
-     if (type === "NetSalary") {
+    if (type === "Insurances") {
+      html = (
+        <CellInsurance
+          educative_insurance={(this.props.total_salary * 1.25) / 100}
+          social_insurance={(this.props.total_salary * 9.75) / 100}
+        />
+      );
+    }
+    if (type === "NetSalary") {
       html = this.simpleField("Neto", this.props.net_salary);
     }
     return html;

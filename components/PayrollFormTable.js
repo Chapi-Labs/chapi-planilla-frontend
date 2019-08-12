@@ -68,7 +68,7 @@ const data = {
     {
       label: "Seguros",
       field: "insurances",
-      type: "SocialAndEducativeInsurance",
+      type: "Insurances",
       sort: "asc",
       width: 50,
       disabled: false
