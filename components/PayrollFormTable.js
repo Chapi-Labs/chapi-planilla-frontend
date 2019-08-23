@@ -75,10 +75,10 @@ const data = {
     },
     {
       label: "ISR",
-      field: "isr_tax",
+      field: "taxes",
       type: "ISRTax",
       sort: "asc",
-      width: 50,
+      width: 60,
       disabled: false
     },
     {
@@ -109,12 +109,12 @@ class PayrollFormTable extends Component {
   }
 
   handleAbsencesChange = ({ value, id }) => {
-    console.log(value, id);
+    //console.log(value, id);
     const overtimeFields = this.state.overtimeFields.map(user => {
-      console.log(user);
       if (user.user_id == id) {
         user.absences = parseFloat(value);
         user.total_salary = user.total_salary - user.absences;
+        user.net_salary = user.total_salary - user.taxes;
       }
       return user;
     });
@@ -137,6 +137,7 @@ class PayrollFormTable extends Component {
         });
         user.total_overtime = Math.round(total * 100) / 100;
         user.total_salary = employee.base_salary + user.total_overtime;
+        user.net_salary = user.total_salary - user.taxes;
       }
       user.fields = fields;
       return user;
@@ -170,7 +171,8 @@ class PayrollFormTable extends Component {
           fields: [...fields.payrollTypes],
           total_overtime: 0.0,
           total_salary: e.base_salary,
-          net_salary: 0.0,
+          taxes: 0.0,
+          net_salary: e.base_salary,
           absences: 0.0
         };
       });
@@ -199,7 +201,7 @@ class PayrollFormTable extends Component {
         const overtimeUserFields = overtimeFields.find(
           e => e.user_id === row.id
         );
-        console.log(row, column, overtimeFields);
+        //console.log(row, column, overtimeFields);
         if (overtimeUserFields != null) {
           newRow = {
             ...newRow,
@@ -233,8 +235,8 @@ class PayrollFormTable extends Component {
       <div className="row">
         <div className="col-12">
           <div className="card">
-            <div class="col-sm-6 offset-md-6">
-              <div class="float-right d-none d-md-block">
+            <div className="col-sm-6 offset-md-6">
+              <div className="float-right d-none d-md-block">
                 <Button className="btn btn-primary waves-effect m-t-10">Guardar Cambios</Button>
               </div>
             </div>

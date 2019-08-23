@@ -4,6 +4,7 @@ import CellEmployee from "./CellEmployee";
 import CellInput from "./CellInput";
 import CellAbsence from "./CellAbsence";
 import CellInsurance from "./CellInsurance";
+import CellTax from "./CellTax";
 
 class PayrollRow extends Component {
   simpleField = (label, value) => (
@@ -25,7 +26,6 @@ class PayrollRow extends Component {
         const salary = employee.base_salary;
         const frequency_name = employee.payroll.name;
         const id = employee.id;
-        console.log(employee);
         const salaryRate = employee.payroll.hourly_rate;
         const legal_id = employee.legal_id;
         const effective_hours = employee.effective_hours;
@@ -89,8 +89,19 @@ class PayrollRow extends Component {
         />
       );
     }
+    if (type === "ISRTax") {
+      const { employee } = this.props;
+      html = (
+        <CellTax
+          base_salary={
+            employee.effective_hours *
+            employee.payroll.hourly_rate*10
+          }
+        />
+      );
+    }
     if (type === "NetSalary") {
-      html = this.simpleField("Neto", this.props.net_salary);
+      html = this.simpleField("Neto", `$ ${this.props.net_salary}`);
     }
     return html;
   }
