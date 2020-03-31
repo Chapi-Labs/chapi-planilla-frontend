@@ -34,7 +34,7 @@
     "graphql": "^14.2.0",
     "graphql-tag": "^2.10.1",
     "mdbreact": "git+https://github.com/Chapi-Labs/React-Bootstrap-with-Material-Design",
-    "next": "^9.0.2",
+    "next": "^9.3.2",
     "next-compose-plugins": "^2.1.1",
     "next-fonts": "^0.17.0",
     "next-with-apollo": "^3.4.0",
